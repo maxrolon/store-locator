@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Develop here..</title>
+  </head>
+  <body>
+
+  <section class="locator" id="store-locator">
+
+    <form class="locator__form js-locator-form">
+      <h1>Store Locater</h1>
+
+      <input type="text" name="address" placeholder="Address" required>
+
+      <select name="type">
+        <option value="" selected>All</option>
+        <option value="stores">Stores</option>
+        <option value="restaurants">Restaurants &amp; Bars</option>
+      </select>
+
+      <select name="miles">
+        <option value="25">25 miles</option>
+        <option value="50" selected>50 miles</option>
+      </select>
+
+      <select name="brand" placeholder="Select a cider">
+        <option value="">Select a brand..</option>
+        <option value="Hopped">Hopped</option>
+        <option value="Original">Original</option>
+      </select>
+
+      <input type="submit" value="Search">
+    </form>
+
+    <div class="locator__bottom">
+      <div class="locator__sidebar">
+
+        <form class="locator__filters">
+          <p>Filter by:</p>
+          <label><input class="js-locator-filter" type="checkbox" name="pkgtype" value="DRAFT"> On draft</label>
+          <label><input class="js-locator-filter" type="checkbox" name="pkgtype" value="CANS"> Serves cans</label>
+        </form>
+
+        <div class="locator__sidebar-list js-locator-list">
+          <p>Use your current location</p>
+          <p>Press the button below to get locations closest to your current location. Allow the browser to access your location when prompted.</p>
+          <a class="js-geo-trigger">Get Location</a>
+          <p class="js-geo-feedback locator__geo-feedback">Please Wait..</p>
+        </div>
+
+        <div class="locator__pagination js-locator-pagination">
+          <a href="#" class="js-prev" data-dir="prev">Prev</a>
+          <a href="#" class="js-next" data-dir="next">Next</a>
+        </div>
+
+      </div>
+
+      <div class="locator__map">
+        <a class="locator__redo js-locator-redo">Redo Search In Map</a>
+        <div class="js-locator-map"></div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <script src="../dist/test.js"></script>
+
+  </body>
+</html>
