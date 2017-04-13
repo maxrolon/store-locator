@@ -7,7 +7,6 @@
     "build": "NODE_ENV=production webpack --progress -p",
     "watch": "NODE_ENV=develop webpack --progress --colors --watch",
     "stage": "NODE_ENV=stage webpack --progress --colors --watch",
-    "prepublish": "npm run build",
     "test": "ava test/index.js -v"
   },
   "ava": {
