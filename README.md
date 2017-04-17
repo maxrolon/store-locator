@@ -1,7 +1,5 @@
 ## Store Locator
 
-------
-
 This module provides a optimized, opinionated, front-end framework to render a store locator micro-app on a web page (think retail store locations, bar and restaurant locations). Mainly, it reacts to DOM events to eventually form a javascript object that can be sent to an API endpoint, providing latitude and longitude co-ordinates (ascertained using a browser's geolocation or the resulting co-ordinates from a geo-decoded address manually entered by a user), as well as filtration and pagination properties. 
 
 In the future, this module may be accompanied with a server-side app to help create a user-friendly store location management system, with an open endpoint to accept the set of arguments provided by this module. In the meantime, this module could help a developer who needs to add a store locator app on a website, pulling locations from an API.
