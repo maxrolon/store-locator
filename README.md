@@ -58,8 +58,7 @@ let storeLocator = new StoreLocator( {
     disableDefaultUI: true,
     zoomControl: true,
     gestureHandling: 'cooperative',
-  },
-  
+  }
 } )
 ```
 
