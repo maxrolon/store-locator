@@ -43,6 +43,7 @@ class Map {
         hide( e.target ), pd( e ), Emitter.emit( 'request', [
           'Form/validate',
           'Form/getValues',
+          'Map/hideCenterButton',
           'Map/getCenter',
           'Sidebar/getFilters',
           'Pagination/pageSize',
@@ -53,6 +54,7 @@ class Map {
 
     Request.addAction( 'Map/Geocode', this.geocode, this )
     Request.addAction( 'Map/getCenter', this.getCenter, this )
+    Request.addAction( 'Map/hideCenterButton', this.hideCenterButton, this )
   }
 
   updateMap( req, res ) {
@@ -175,6 +177,10 @@ class Map {
 
   showCenterButton() {
     show( this.fetchFromCenter )
+  }
+
+  hideCenterButton() {
+    hide( this.fetchFromCenter )
   }
 }
 
