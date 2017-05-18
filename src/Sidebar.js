@@ -100,6 +100,7 @@ class Sidebar {
 
   geolocation( request, next ) {
     this.geofeedback.style.display = 'block'
+    this.geotrigger.style.display = 'none'
 
     navigator.geolocation.getCurrentPosition( res => {
       next( Object.assign( request, {
