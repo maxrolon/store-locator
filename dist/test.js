@@ -1,4 +1,14 @@
-/******/ (function(modules) { // webpackBootstrap
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define("StoreLocator", [], factory);
+	else if(typeof exports === 'object')
+		exports["StoreLocator"] = factory();
+	else
+		root["StoreLocator"] = factory();
+})(this, function() {
+return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 /******/
@@ -77,7 +87,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _eventEmitter = __webpack_require__(21);
+var _eventEmitter = __webpack_require__(22);
 
 var _eventEmitter2 = _interopRequireDefault(_eventEmitter);
 
@@ -86,6 +96,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var emitter = (0, _eventEmitter2.default)();
 
 exports.default = emitter;
+
+/*** EXPORTS FROM exports-loader ***/
+
 
 /***/ }),
 /* 1 */
@@ -192,6 +205,9 @@ Request.addAction('Request/getPreviousRequest', Request.getPreviousRequest, Requ
 
 exports.default = Request;
 
+/*** EXPORTS FROM exports-loader ***/
+
+
 /***/ }),
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -227,6 +243,9 @@ var off = exports.off = function off(element, event, callback, capture) {
 };
 /*eslint-enable */
 
+/*** EXPORTS FROM exports-loader ***/
+
+
 /***/ }),
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -242,11 +261,7 @@ exports.pd = exports.iconSize = exports.hasClass = exports.hide = exports.show =
 var _dom = __webpack_require__(2);
 
 var scrollToTop = exports.scrollToTop = function scrollToTop(el) {
-  el.scrollTop = 0;
-
-  if (el.getBoundingClientRect().top < 0) {
-    // scrollToSection( el )
-  }
+  return el.scrollTop = 0;
 };
 
 var clearElement = exports.clearElement = function clearElement(el) {
@@ -295,6 +310,9 @@ var pd = exports.pd = function pd(e) {
   return e.preventDefault();
 };
 
+/*** EXPORTS FROM exports-loader ***/
+
+
 /***/ }),
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -302,21 +320,21 @@ var pd = exports.pd = function pd(e) {
 "use strict";
 
 
-var _src = __webpack_require__(30);
+var _src = __webpack_require__(31);
 
 var _src2 = _interopRequireDefault(_src);
 
-var _nanoajax = __webpack_require__(23);
+var _nanoajax = __webpack_require__(24);
 
 var _nanoajax2 = _interopRequireDefault(_nanoajax);
 
-var _mockRequest = __webpack_require__(34);
+var _mockRequest = __webpack_require__(35);
 
 var _mockRequest2 = _interopRequireDefault(_mockRequest);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var storeLocater = new _src2.default();
+var storeLocator = new _src2.default();
 
 var APIENDPOINT = 'https://fpq6p90dm9.execute-api.us-west-2.amazonaws.com/prod/vip-store-locator-request';
 
@@ -378,6 +396,9 @@ _src2.default.attachAjaxHandler(function (request, next) {
   });
 });
 
+/*** EXPORTS FROM exports-loader ***/
+
+
 /***/ }),
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -385,7 +406,7 @@ _src2.default.attachAjaxHandler(function (request, next) {
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(35);
+var content = __webpack_require__(6);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(36)(content, {});
@@ -406,6 +427,20 @@ if(false) {
 
 /***/ }),
 /* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(7)();
+// imports
+
+
+// module
+exports.push([module.i, "/*! normalize.css v6.0.0 | MIT License | github.com/necolas/normalize.css */\n\n/* Document\n   ========================================================================== */\n\n/**\n * 1. Correct the line height in all browsers.\n * 2. Prevent adjustments of font size after orientation changes in\n *    IE on Windows Phone and in iOS.\n */\n\nhtml {\n  line-height: 1.15; /* 1 */\n  -ms-text-size-adjust: 100%; /* 2 */\n  -webkit-text-size-adjust: 100%; /* 2 */\n}\n\n/* Sections\n   ========================================================================== */\n\n/**\n * Add the correct display in IE 9-.\n */\n\narticle, aside, footer, header, nav, section {\n  display: block;\n}\n\n/**\n * Correct the font size and margin on `h1` elements within `section` and\n * `article` contexts in Chrome, Firefox, and Safari.\n */\n\nh1 {\n  font-size: 2em;\n  margin: 0.67em 0;\n}\n\n/* Grouping content\n   ========================================================================== */\n\n/**\n * Add the correct display in IE 9-.\n * 1. Add the correct display in IE.\n */\n\nfigcaption, figure, main { /* 1 */\n  display: block;\n}\n\n/**\n * Add the correct margin in IE 8.\n */\n\nfigure {\n  margin: 1em 40px;\n}\n\n/**\n * 1. Add the correct box sizing in Firefox.\n * 2. Show the overflow in Edge and IE.\n */\n\nhr {\n  box-sizing: content-box; /* 1 */\n  height: 0; /* 1 */\n  overflow: visible; /* 2 */\n}\n\n/**\n * 1. Correct the inheritance and scaling of font size in all browsers.\n * 2. Correct the odd `em` font sizing in all browsers.\n */\n\npre {\n  font-family: monospace, monospace; /* 1 */\n  font-size: 1em; /* 2 */\n}\n\n/* Text-level semantics\n   ========================================================================== */\n\n/**\n * 1. Remove the gray background on active links in IE 10.\n * 2. Remove gaps in links underline in iOS 8+ and Safari 8+.\n */\n\na {\n  background-color: transparent; /* 1 */\n  -webkit-text-decoration-skip: objects; /* 2 */\n}\n\n/**\n * 1. Remove the bottom border in Chrome 57- and Firefox 39-.\n * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.\n */\n\nabbr[title] {\n  border-bottom: none; /* 1 */\n  text-decoration: underline; /* 2 */\n  text-decoration: underline dotted; /* 2 */\n}\n\n/**\n * Prevent the duplicate application of `bolder` by the next rule in Safari 6.\n */\n\nb, strong {\n  font-weight: inherit;\n}\n\n/**\n * Add the correct font weight in Chrome, Edge, and Safari.\n */\n\nb, strong {\n  font-weight: bolder;\n}\n\n/**\n * 1. Correct the inheritance and scaling of font size in all browsers.\n * 2. Correct the odd `em` font sizing in all browsers.\n */\n\ncode, kbd, samp {\n  font-family: monospace, monospace; /* 1 */\n  font-size: 1em; /* 2 */\n}\n\n/**\n * Add the correct font style in Android 4.3-.\n */\n\ndfn {\n  font-style: italic;\n}\n\n/**\n * Add the correct background and color in IE 9-.\n */\n\nmark {\n  background-color: #ff0;\n  color: #000;\n}\n\n/**\n * Add the correct font size in all browsers.\n */\n\nsmall {\n  font-size: 80%;\n}\n\n/**\n * Prevent `sub` and `sup` elements from affecting the line height in\n * all browsers.\n */\n\nsub, sup {\n  font-size: 75%;\n  line-height: 0;\n  position: relative;\n  vertical-align: baseline;\n}\n\nsub {\n  bottom: -0.25em;\n}\n\nsup {\n  top: -0.5em;\n}\n\n/* Embedded content\n   ========================================================================== */\n\n/**\n * Add the correct display in IE 9-.\n */\n\naudio, video {\n  display: inline-block;\n}\n\n/**\n * Add the correct display in iOS 4-7.\n */\n\naudio:not([controls]) {\n  display: none;\n  height: 0;\n}\n\n/**\n * Remove the border on images inside links in IE 10-.\n */\n\nimg {\n  border-style: none;\n}\n\n/**\n * Hide the overflow in IE.\n */\n\nsvg:not(:root) {\n  overflow: hidden;\n}\n\n/* Forms\n   ========================================================================== */\n\n/**\n * Remove the margin in Firefox and Safari.\n */\n\nbutton, input, optgroup, select, textarea {\n  margin: 0;\n}\n\n/**\n * Show the overflow in IE.\n * 1. Show the overflow in Edge.\n */\n\nbutton, input { /* 1 */\n  overflow: visible;\n}\n\n/**\n * Remove the inheritance of text transform in Edge, Firefox, and IE.\n * 1. Remove the inheritance of text transform in Firefox.\n */\n\nbutton, select { /* 1 */\n  text-transform: none;\n}\n\n/**\n * 1. Prevent a WebKit bug where (2) destroys native `audio` and `video`\n *    controls in Android 4.\n * 2. Correct the inability to style clickable types in iOS and Safari.\n */\n\nbutton, html [type=\"button\"], [type=\"reset\"], [type=\"submit\"] {\n  -webkit-appearance: button; /* 2 */\n}\n\n/**\n * Remove the inner border and padding in Firefox.\n */\n\nbutton::-moz-focus-inner, [type=\"button\"]::-moz-focus-inner, [type=\"reset\"]::-moz-focus-inner, [type=\"submit\"]::-moz-focus-inner {\n  border-style: none;\n  padding: 0;\n}\n\n/**\n * Restore the focus styles unset by the previous rule.\n */\n\nbutton:-moz-focusring, [type=\"button\"]:-moz-focusring, [type=\"reset\"]:-moz-focusring, [type=\"submit\"]:-moz-focusring {\n  outline: 1px dotted ButtonText;\n}\n\n/**\n * 1. Correct the text wrapping in Edge and IE.\n * 2. Correct the color inheritance from `fieldset` elements in IE.\n * 3. Remove the padding so developers are not caught out when they zero out\n *    `fieldset` elements in all browsers.\n */\n\nlegend {\n  box-sizing: border-box; /* 1 */\n  color: inherit; /* 2 */\n  display: table; /* 1 */\n  max-width: 100%; /* 1 */\n  padding: 0; /* 3 */\n  white-space: normal; /* 1 */\n}\n\n/**\n * 1. Add the correct display in IE 9-.\n * 2. Add the correct vertical alignment in Chrome, Firefox, and Opera.\n */\n\nprogress {\n  display: inline-block; /* 1 */\n  vertical-align: baseline; /* 2 */\n}\n\n/**\n * Remove the default vertical scrollbar in IE.\n */\n\ntextarea {\n  overflow: auto;\n}\n\n/**\n * 1. Add the correct box sizing in IE 10-.\n * 2. Remove the padding in IE 10-.\n */\n\n[type=\"checkbox\"], [type=\"radio\"] {\n  box-sizing: border-box; /* 1 */\n  padding: 0; /* 2 */\n}\n\n/**\n * Correct the cursor style of increment and decrement buttons in Chrome.\n */\n\n[type=\"number\"]::-webkit-inner-spin-button, [type=\"number\"]::-webkit-outer-spin-button {\n  height: auto;\n}\n\n/**\n * 1. Correct the odd appearance in Chrome and Safari.\n * 2. Correct the outline style in Safari.\n */\n\n[type=\"search\"] {\n  -webkit-appearance: textfield; /* 1 */\n  outline-offset: -2px; /* 2 */\n}\n\n/**\n * Remove the inner padding and cancel buttons in Chrome and Safari on macOS.\n */\n\n[type=\"search\"]::-webkit-search-cancel-button, [type=\"search\"]::-webkit-search-decoration {\n  -webkit-appearance: none;\n}\n\n/**\n * 1. Correct the inability to style clickable types in iOS and Safari.\n * 2. Change font properties to `inherit` in Safari.\n */\n\n::-webkit-file-upload-button {\n  -webkit-appearance: button; /* 1 */\n  font: inherit; /* 2 */\n}\n\n/* Interactive\n   ========================================================================== */\n\n/*\n * Add the correct display in IE 9-.\n * 1. Add the correct display in Edge, IE, and Firefox.\n */\n\ndetails, menu {\n  display: block;\n}\n\n/*\n * Add the correct display in all browsers.\n */\n\nsummary {\n  display: list-item;\n}\n\n/* Scripting\n   ========================================================================== */\n\n/**\n * Add the correct display in IE 9-.\n */\n\ncanvas {\n  display: inline-block;\n}\n\n/**\n * Add the correct display in IE.\n */\n\ntemplate {\n  display: none;\n}\n\n/* Hidden\n   ========================================================================== */\n\n/**\n * Add the correct display in IE 10-.\n */\n\n[hidden] {\n  display: none;\n}\n\nbody{\n  font-family: Helvetica, Arial, sans-serif;\n}\n\n*{\n  box-sizing: border-box;\n}\n\ninput[type=\"text\"], input[type=\"submit\"], label, select, textarea {\n  outline: 0;\n  border: 0;\n  border-radius: 0;\n  font-size: inherit;\n  position: relative;\n  background-color: transparent;\n  -webkit-appearance: none;\n  border: 2px solid #eee;\n  padding: .9em .8em .85em;\n  min-width: 200px;\n}\n\nselect::-ms-expand {\n  display: none\n}\n\n.locator__form{\n  text-align: center;\n  padding: 2em;\n}\n\n.locator__bottom{\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  height: 600px;\n}\n\n.locator__filters{\n  height:6em;\n  width:100%;\n  left:0;\n  padding: 0 2em;\n  position: absolute;\n  background-color:#fff;\n}\n\n.locator__geo-feedback{\n  display: none\n}\n\n.locator__geo-feedback.is-visible {\n  display: block;\n}\n\n.locator__sidebar{\n  width: 30%;\n  padding: 0 2em;\n  position: relative;\n}\n\n.locator__sidebar-list{\n  overflow:hidden;\n  overflow-y: scroll;\n  height: 100%;\n  padding-top:6em;\n}\n\n.locator__sidebar-list > div {\n  border-bottom: 1px solid #000;\n  padding-bottom: 1em;\n  margin-top: 1em;\n}\n\n.locator__pagination{\n  position: absolute;\n  bottom:0;\n  left:0;\n  width: 100%;\n  border-top: 1px solid #eee;\n  padding: 2em;\n  display:none;\n  background-color:#fff\n}\n\n.locator__pagination.is-active {\n  display: block;\n}\n\n.locator__pagination > a:last-child{\n  float: right;\n}\n\n.locator__map{\n  width: 70%;\n  background: #eee;\n  position: relative;\n}\n\n.locator__redo{\n  padding: 2em;\n  position: absolute;\n  top:1em;\n  right:1em;\n  z-index: 1;\n  background:#fff;\n  cursor: pointer;\n  display:none\n}\n\n.locator__redo.is-visible {\n  display: block;\n}\n\n.locator__map > div{\n  width: 100%;\n  height: 100%;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -460,17 +495,20 @@ module.exports = function () {
 	return list;
 };
 
+/*** EXPORTS FROM exports-loader ***/
+
+
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var assign = __webpack_require__(8),
-    normalizeOpts = __webpack_require__(15),
-    isCallable = __webpack_require__(11),
-    contains = __webpack_require__(18),
+var assign = __webpack_require__(9),
+    normalizeOpts = __webpack_require__(16),
+    isCallable = __webpack_require__(12),
+    contains = __webpack_require__(19),
     d;
 
 d = module.exports = function (dscr, value /*, options*/) {
@@ -528,17 +566,23 @@ d.gs = function (dscr, get, set /*, options*/) {
 	return !options ? desc : assign(normalizeOpts(options), desc);
 };
 
+/*** EXPORTS FROM exports-loader ***/
+
+
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-module.exports = __webpack_require__(9)() ? Object.assign : __webpack_require__(10);
+module.exports = __webpack_require__(10)() ? Object.assign : __webpack_require__(11);
+
+/*** EXPORTS FROM exports-loader ***/
+
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -553,15 +597,18 @@ module.exports = function () {
 	return obj.foo + obj.bar + obj.trzy === 'razdwatrzy';
 };
 
+/*** EXPORTS FROM exports-loader ***/
+
+
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var keys = __webpack_require__(12),
-    value = __webpack_require__(17),
+var keys = __webpack_require__(13),
+    value = __webpack_require__(18),
     max = Math.max;
 
 module.exports = function (dest, src /*, …srcn*/) {
@@ -585,8 +632,11 @@ module.exports = function (dest, src /*, …srcn*/) {
 	return dest;
 };
 
+/*** EXPORTS FROM exports-loader ***/
+
+
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -598,17 +648,23 @@ module.exports = function (obj) {
   return typeof obj === 'function';
 };
 
+/*** EXPORTS FROM exports-loader ***/
+
+
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-module.exports = __webpack_require__(13)() ? Object.keys : __webpack_require__(14);
+module.exports = __webpack_require__(14)() ? Object.keys : __webpack_require__(15);
+
+/*** EXPORTS FROM exports-loader ***/
+
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -623,8 +679,11 @@ module.exports = function () {
 	}
 };
 
+/*** EXPORTS FROM exports-loader ***/
+
+
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -636,8 +695,11 @@ module.exports = function (object) {
 	return keys(object == null ? object : Object(object));
 };
 
+/*** EXPORTS FROM exports-loader ***/
+
+
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -662,8 +724,11 @@ module.exports = function (options /*, …options*/) {
 	return result;
 };
 
+/*** EXPORTS FROM exports-loader ***/
+
+
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -674,8 +739,11 @@ module.exports = function (fn) {
 	return fn;
 };
 
+/*** EXPORTS FROM exports-loader ***/
+
+
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -686,17 +754,23 @@ module.exports = function (value) {
 	return value;
 };
 
+/*** EXPORTS FROM exports-loader ***/
+
+
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-module.exports = __webpack_require__(19)() ? String.prototype.contains : __webpack_require__(20);
+module.exports = __webpack_require__(20)() ? String.prototype.contains : __webpack_require__(21);
+
+/*** EXPORTS FROM exports-loader ***/
+
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -709,8 +783,11 @@ module.exports = function () {
 	return str.contains('dwa') === true && str.contains('foo') === false;
 };
 
+/*** EXPORTS FROM exports-loader ***/
+
+
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -722,8 +799,11 @@ module.exports = function (searchString /*, position*/) {
 	return indexOf.call(this, searchString, arguments[1]) > -1;
 };
 
+/*** EXPORTS FROM exports-loader ***/
+
+
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -731,8 +811,8 @@ module.exports = function (searchString /*, position*/) {
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var d = __webpack_require__(7),
-    callable = __webpack_require__(16),
+var d = __webpack_require__(8),
+    callable = __webpack_require__(17),
     apply = Function.prototype.apply,
     call = Function.prototype.call,
     create = Object.create,
@@ -863,8 +943,11 @@ module.exports = exports = function exports(o) {
 };
 exports.methods = methods;
 
+/*** EXPORTS FROM exports-loader ***/
+
+
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1080,8 +1163,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	return GoogleMapsLoader;
 });
 
+/*** EXPORTS FROM exports-loader ***/
+
+
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1188,10 +1274,13 @@ function getRequest(cors) {
 function setDefault(obj, key, value) {
   obj[key] = obj[key] || value;
 }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(25)))
+
+/*** EXPORTS FROM exports-loader ***/
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(26)))
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1285,8 +1374,11 @@ module.exports = function (css) {
 	return fixedCss;
 };
 
+/*** EXPORTS FROM exports-loader ***/
+
+
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1315,8 +1407,11 @@ try {
 
 module.exports = g;
 
+/*** EXPORTS FROM exports-loader ***/
+
+
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1396,8 +1491,11 @@ var Form = function () {
 
 exports.default = Form;
 
+/*** EXPORTS FROM exports-loader ***/
+
+
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1411,7 +1509,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _googleMaps = __webpack_require__(22);
+var _googleMaps = __webpack_require__(23);
 
 var _googleMaps2 = _interopRequireDefault(_googleMaps);
 
@@ -1485,12 +1583,13 @@ var Map = function () {
 
     if (this.fetchFromCenter) {
       (0, _dom.on)(this.fetchFromCenter, 'click', function (e) {
-        return (0, _utils.hide)(e.target), (0, _utils.pd)(e), _emitter2.default.emit('request', ['Form/validate', 'Form/getValues', 'Map/getCenter', 'Sidebar/getFilters', 'Pagination/pageSize', 'Map/Geocode']);
+        return (0, _utils.hide)(e.target), (0, _utils.pd)(e), _emitter2.default.emit('request', ['Form/validate', 'Form/getValues', 'Map/hideCenterButton', 'Map/getCenter', 'Sidebar/getFilters', 'Pagination/pageSize', 'Map/Geocode']);
       });
     }
 
     _Request2.default.addAction('Map/Geocode', this.geocode, this);
     _Request2.default.addAction('Map/getCenter', this.getCenter, this);
+    _Request2.default.addAction('Map/hideCenterButton', this.hideCenterButton, this);
   }
 
   _createClass(Map, [{
@@ -1643,6 +1742,11 @@ var Map = function () {
     value: function showCenterButton() {
       (0, _utils.show)(this.fetchFromCenter);
     }
+  }, {
+    key: 'hideCenterButton',
+    value: function hideCenterButton() {
+      (0, _utils.hide)(this.fetchFromCenter);
+    }
   }]);
 
   return Map;
@@ -1650,8 +1754,11 @@ var Map = function () {
 
 exports.default = Map;
 
+/*** EXPORTS FROM exports-loader ***/
+
+
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1776,8 +1883,11 @@ var Pagination = function () {
 
 exports.default = Pagination;
 
+/*** EXPORTS FROM exports-loader ***/
+
+
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1861,6 +1971,8 @@ var Sidebar = function () {
         return this.noResults();
       }
 
+      this.sidebar.scrollTop = 0;
+
       response.locations.map(function (location) {
         var HTML = _this2.SIDEBAR_TEMPLATE(location);
         var item = document.createElement('div');
@@ -1899,6 +2011,9 @@ var Sidebar = function () {
   }, {
     key: 'geolocation',
     value: function geolocation(request, next) {
+      this.geofeedback.style.display = 'block';
+      this.geotrigger.style.display = 'none';
+
       navigator.geolocation.getCurrentPosition(function (res) {
         next(_extends(request, {
           lat: res.coords.latitude,
@@ -1913,8 +2028,11 @@ var Sidebar = function () {
 
 exports.default = Sidebar;
 
+/*** EXPORTS FROM exports-loader ***/
+
+
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1933,19 +2051,19 @@ var _Request = __webpack_require__(1);
 
 var _Request2 = _interopRequireDefault(_Request);
 
-var _Map = __webpack_require__(27);
+var _Map = __webpack_require__(28);
 
 var _Map2 = _interopRequireDefault(_Map);
 
-var _Form = __webpack_require__(26);
+var _Form = __webpack_require__(27);
 
 var _Form2 = _interopRequireDefault(_Form);
 
-var _Sidebar = __webpack_require__(29);
+var _Sidebar = __webpack_require__(30);
 
 var _Sidebar2 = _interopRequireDefault(_Sidebar);
 
-var _Pagination = __webpack_require__(28);
+var _Pagination = __webpack_require__(29);
 
 var _Pagination2 = _interopRequireDefault(_Pagination);
 
@@ -1953,11 +2071,11 @@ var _emitter = __webpack_require__(0);
 
 var _emitter2 = _interopRequireDefault(_emitter);
 
-var _constants = __webpack_require__(31);
+var _constants = __webpack_require__(32);
 
 var Defaults = _interopRequireWildcard(_constants);
 
-var _templates = __webpack_require__(33);
+var _templates = __webpack_require__(34);
 
 var Templates = _interopRequireWildcard(_templates);
 
@@ -1970,18 +2088,18 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var instance = null;
 var components = { Map: _Map2.default, Form: _Form2.default, Sidebar: _Sidebar2.default, Pagination: _Pagination2.default };
 
-var StoreLocater = function () {
-  _createClass(StoreLocater, null, [{
+var StoreLocator = function () {
+  _createClass(StoreLocator, null, [{
     key: 'Components',
     value: function Components() {
       return components;
     }
   }]);
 
-  function StoreLocater(opts) {
+  function StoreLocator(opts) {
     var _this = this;
 
-    _classCallCheck(this, StoreLocater);
+    _classCallCheck(this, StoreLocator);
 
     if (instance) {
       return instance;
@@ -1998,7 +2116,7 @@ var StoreLocater = function () {
     return instance;
   }
 
-  _createClass(StoreLocater, null, [{
+  _createClass(StoreLocator, null, [{
     key: 'attachComponent',
     value: function attachComponent(name, component) {
       components[name] = component;
@@ -2015,7 +2133,7 @@ var StoreLocater = function () {
     }
   }]);
 
-  return StoreLocater;
+  return StoreLocator;
 }();
 
 _emitter2.default.on('request', function (actions, req) {
@@ -2024,10 +2142,13 @@ _emitter2.default.on('request', function (actions, req) {
 
 var Components = exports.Components = { Map: _Map2.default, Form: _Form2.default, Request: _Request2.default, Sidebar: _Sidebar2.default, Emitter: _emitter2.default, Pagination: _Pagination2.default };
 
-exports.default = StoreLocater;
+exports.default = StoreLocator;
+
+/*** EXPORTS FROM exports-loader ***/
+
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2038,20 +2159,20 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.MAP_DEFAULTS = exports.ICON_PATH = exports.MAP_REGION = exports.MAP_LANG = exports.MAP_KEY = exports.GEO_FEEDBACK = exports.GEO_TRIGGER = exports.FETCH_LOCATIONS_FROM_CENTER = exports.FILTERS = exports.PAGINATION = exports.FORM = exports.SIDEBAR = exports.MAP = undefined;
 
-var _mapStyles = __webpack_require__(32);
+var _mapStyles = __webpack_require__(33);
 
 var _mapStyles2 = _interopRequireDefault(_mapStyles);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var MAP = exports.MAP = '.js-locater-map';
-var SIDEBAR = exports.SIDEBAR = '.js-locater-list';
-var FORM = exports.FORM = '.js-locater-form';
-var PAGINATION = exports.PAGINATION = '.js-locater-pagination';
-var FILTERS = exports.FILTERS = '.js-locater-filter';
-var FETCH_LOCATIONS_FROM_CENTER = exports.FETCH_LOCATIONS_FROM_CENTER = '.js-locater-redo';
-var GEO_TRIGGER = exports.GEO_TRIGGER = '.js-geo-trigger';
-var GEO_FEEDBACK = exports.GEO_FEEDBACK = '.js-geo-feedback';
+var MAP = exports.MAP = '.js-locator-map';
+var SIDEBAR = exports.SIDEBAR = '.js-locator-list';
+var FORM = exports.FORM = '.js-locator-form';
+var PAGINATION = exports.PAGINATION = '.js-locator-pagination';
+var FILTERS = exports.FILTERS = '.js-locator-filter';
+var FETCH_LOCATIONS_FROM_CENTER = exports.FETCH_LOCATIONS_FROM_CENTER = '.js-locator-redo';
+var GEO_TRIGGER = exports.GEO_TRIGGER = '.js-locator-geo-trigger';
+var GEO_FEEDBACK = exports.GEO_FEEDBACK = '.js-locator-geo-feedback';
 var MAP_KEY = exports.MAP_KEY = 'AIzaSyC2cgfVdeq4VazVwDCWbDZ72AghiHeb09g';
 var MAP_LANG = exports.MAP_LANG = 'en';
 var MAP_REGION = exports.MAP_REGION = 'US';
@@ -2066,8 +2187,11 @@ var MAP_DEFAULTS = exports.MAP_DEFAULTS = {
   gestureHandling: 'cooperative'
 };
 
+/*** EXPORTS FROM exports-loader ***/
+
+
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2195,8 +2319,11 @@ exports.default = [{
 }];
 /*eslint-enable */
 
+/*** EXPORTS FROM exports-loader ***/
+
+
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2239,8 +2366,11 @@ var MARKER_TEMPLATE = exports.MARKER_TEMPLATE = function MARKER_TEMPLATE(_ref2) 
   return '\n  <div class="locate__location--marker">\n      <p class="h6 c-gold mta">' + name + '</p>\n      <p class="p mxa">' + (0, _utils.toTitleCase)(street) + '</p>\n      <p class="p mxa">' + (0, _utils.toTitleCase)(city) + ', ' + state + ' ' + zip + '</p>\n      <a class="block p mxa c-gold hover--gold" href="tel:' + phone + '">' + (0, _utils.formatNumber)(phone) + '</a>\n      <a class="block p mxa mb1 c-gold hover--gold locate__directions" href="https://www.google.com/maps/dir//' + lat + ',' + lng + '" target="_blank">Get Directions</a>\n      <p class="p mxa"><span class="medium archer">Distance: </span>' + distance + ' miles</p>\n      <p class="p mxa"><span class="medium archer">Carries: </span>' + carries + '</p>\n    </div>';
 };
 
+/*** EXPORTS FROM exports-loader ***/
+
+
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2253,18 +2383,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = { "locations": [{ "dba": ["G H FOOD"], "street": ["750 MANHATTAN AVE STE A"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11222"], "lat": ["40.72622"], "long": ["-73.95209"], "phone": ["7183493239"], "storeType": ["05"], "lastSold": ["20170327"], "distance": ["0.1"], "otherBrands": [{ "otherBrand": ["Hopped", "Original", "Pineapple", "Tx Honey", "Variety"] }], "packages": [{ "package": ["2/12", "4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["2/12", "4/6"] }] }, { "dba": ["LAKE STREET"], "street": ["706 MANHATTAN AVE"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11222"], "lat": ["40.72564"], "long": ["-73.95176"], "phone": ["7186090002"], "storeType": ["23"], "lastSold": ["20170321"], "distance": ["0.2"], "otherBrands": [{ "otherBrand": ["Original"] }], "packages": [{ "package": ["1/2"] }], "packageTypes": [{ "packageType": ["KEG"] }], "packageSizes": [{ "packageSize": ["1/2"] }] }, { "dba": ["MCGUINESS & KENT SVC STATION"], "street": ["256 MCGUINESS BLVD"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11222"], "lat": ["40.73096"], "long": ["-73.95159"], "phone": ["7183831131"], "storeType": ["01"], "lastSold": ["20170328"], "distance": ["0.2"], "otherBrands": [{ "otherBrand": ["Original"] }], "packages": [{ "package": ["4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["4/6"] }] }, { "dba": ["KDA MINI MART"], "street": ["711 MANHATTAN AVE"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11222"], "lat": ["40.72617"], "long": ["-73.95222"], "phone": ["3475575135"], "storeType": ["01"], "lastSold": ["20170327"], "distance": ["0.2"], "otherBrands": [{ "otherBrand": ["Original"] }], "packages": [{ "package": ["4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["4/6"] }] }, { "dba": ["MR BERRY"], "street": ["892 MANHATTAN AVE"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11222"], "lat": ["40.73004"], "long": ["-73.95409"], "phone": ["3475991662"], "storeType": ["05"], "lastSold": ["20170306"], "distance": ["0.2"], "otherBrands": [{ "otherBrand": ["Original"] }], "packages": [{ "package": ["4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["4/6"] }] }, { "dba": ["BROOKLYN BAZAAR"], "street": ["144 GREENPOINT AVE"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11222"], "lat": ["40.72998"], "long": ["-73.955663"], "phone": ["9149249883"], "storeType": ["23"], "lastSold": ["20170331"], "distance": ["0.2"], "otherBrands": [{ "otherBrand": ["Original"] }], "packages": [{ "package": ["4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["4/6"] }] }, { "dba": ["CHERRY POINT"], "street": ["664 MANHATTAN AVE"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11222"], "lat": ["40.724668"], "long": ["-73.951212"], "phone": ["7183893828"], "storeType": ["32"], "lastSold": ["20170321"], "distance": ["0.2"], "otherBrands": [{ "otherBrand": ["Original"] }], "packages": [{ "package": ["4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["4/6"] }] }, { "dba": ["GREENPOINT FISH & LOBSTER"], "street": ["114 NASSAU AVE"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11222"], "lat": ["40.72427"], "long": ["-73.94908"], "phone": ["7183490400"], "storeType": ["32"], "lastSold": ["20170327"], "distance": ["0.3"], "otherBrands": [{ "otherBrand": ["Original"] }], "packages": [{ "package": ["4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["4/6"] }] }, { "dba": ["DIAMOND DELI"], "street": ["162 NASSAU AVE"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11222"], "lat": ["40.724999"], "long": ["-73.946845"], "phone": ["7183497544"], "storeType": ["05"], "lastSold": ["20170307"], "distance": ["0.3"], "otherBrands": [{ "otherBrand": ["Original"] }], "packages": [{ "package": ["4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["4/6"] }] }, { "dba": ["C TOWN SUPERMARKET"], "street": ["953 MANHATTAN AVE"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11222"], "lat": ["40.73197"], "long": ["-73.95463"], "phone": ["7183493000"], "storeType": ["09"], "lastSold": ["20170306"], "distance": ["0.3"], "otherBrands": [{ "otherBrand": ["Hopped", "Original"] }], "packages": [{ "package": ["4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["4/6"] }] }, { "dba": ["MCCARREN DELI"], "street": ["57 NASSAU AVE"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11222"], "lat": ["40.72353"], "long": ["-73.95165"], "phone": ["7183842870"], "storeType": ["05"], "lastSold": ["20170320"], "distance": ["0.3"], "otherBrands": [{ "otherBrand": ["Original"] }], "packages": [{ "package": ["4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["4/6"] }] }, { "dba": ["SHAYZ"], "street": ["130 FRANKLIN ST STE 1"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11222"], "lat": ["40.72928"], "long": ["-73.95742"], "phone": ["7183893888"], "storeType": ["23"], "lastSold": ["20170323"], "distance": ["0.4"], "otherBrands": [{ "otherBrand": ["Original"] }], "packages": [{ "package": ["4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["4/6"] }] }, { "dba": ["HAIL MARY"], "street": ["68 GREENPOINT AVE"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11222"], "lat": ["40.729741"], "long": ["-73.958277"], "phone": ["3474220645"], "storeType": ["32"], "lastSold": ["20170330"], "distance": ["0.4"], "otherBrands": [{ "otherBrand": ["Original"] }], "packages": [{ "package": ["4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["4/6"] }] }, { "dba": ["OHS MINI MARKET"], "street": ["227 A NASSAU AVE"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11222"], "lat": ["40.72579"], "long": ["-73.94317"], "phone": ["7183835942"], "storeType": ["05"], "lastSold": ["20170328"], "distance": ["0.4"], "otherBrands": [{ "otherBrand": ["Original"] }], "packages": [{ "package": ["4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["4/6"] }] }, { "dba": ["FREDDYS MARKET"], "street": ["257 DRIGGS AVE"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11222"], "lat": ["40.72262"], "long": ["-73.94776"], "phone": ["7183025208"], "storeType": ["05"], "lastSold": ["20170307"], "distance": ["0.4"], "otherBrands": [{ "otherBrand": ["Original"] }], "packages": [{ "package": ["4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["4/6"] }] }, { "dba": ["THE MOONLIGHT MILE"], "street": ["200 FRANKLIN ST"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11222"], "lat": ["40.7323"], "long": ["-73.95791"], "phone": ["7183893904"], "storeType": ["23"], "lastSold": ["20170330"], "distance": ["0.5"], "otherBrands": [{ "otherBrand": ["Original"] }], "packages": [{ "package": ["4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["4/6"] }] }, { "dba": ["DRIGGS FINEST DELI"], "street": ["162 DRIGGS AVE"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11222"], "lat": ["40.72309"], "long": ["-73.94455"], "phone": ["7183831740"], "storeType": ["05"], "lastSold": ["20170328"], "distance": ["0.5"], "otherBrands": [{ "otherBrand": ["Original", "Tx Honey"] }], "packages": [{ "package": ["4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["4/6"] }] }, { "dba": ["JOHN DELI"], "street": ["260 NASSAU AVE"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11222"], "lat": ["40.72586"], "long": ["-73.94113"], "phone": ["7183891275"], "storeType": ["05"], "lastSold": ["20170328"], "distance": ["0.5"], "otherBrands": [{ "otherBrand": ["Original", "Tx Honey"] }], "packages": [{ "package": ["4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["4/6"] }] }, { "dba": ["LOBSTER JOINT"], "street": ["1073 MANHATTAN AVE"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11222"], "lat": ["40.73535"], "long": ["-73.95518"], "phone": ["7188398990"], "storeType": ["32"], "lastSold": ["20170316"], "distance": ["0.6"], "otherBrands": [{ "otherBrand": ["Original"] }], "packages": [{ "package": ["4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["4/6"] }] }, { "dba": ["MABLES SMOKEHOUSE AND BANQUET HALL"], "street": ["44 BERRY ST"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11249"], "lat": ["40.72102"], "long": ["-73.95649"], "phone": ["7182186655"], "storeType": ["32"], "lastSold": ["20170323"], "distance": ["0.6"], "otherBrands": [{ "otherBrand": ["Original"] }], "packages": [{ "package": ["4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["4/6"] }] }, { "dba": ["THE COUNTING ROOM"], "street": ["44 BERRY ST"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11249"], "lat": ["40.72102"], "long": ["-73.95649"], "phone": ["9179924333"], "storeType": ["23"], "lastSold": ["20170330"], "distance": ["0.6"], "otherBrands": [{ "otherBrand": ["Original"] }], "packages": [{ "package": ["4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["4/6"] }] }, { "dba": ["BEDFORD 101 FOOD CORP"], "street": ["95 BEDFORD AVE"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11249"], "lat": ["40.71309"], "long": ["-73.96225"], "phone": ["7183885088"], "storeType": ["05"], "lastSold": ["20170316"], "distance": ["0.6"], "otherBrands": [{ "otherBrand": ["Original"] }], "packages": [{ "package": ["4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["4/6"] }] }, { "dba": ["KENT ALE HOUSE"], "street": ["51 KENT AVE"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11249"], "lat": ["40.65758"], "long": ["-73.95811"], "phone": ["5165512496"], "storeType": ["23"], "lastSold": ["20170323"], "distance": ["0.6"], "otherBrands": [{ "otherBrand": ["Original"] }], "packages": [{ "package": ["1/2"] }], "packageTypes": [{ "packageType": ["KEG"] }], "packageSizes": [{ "packageSize": ["1/2"] }] }, { "dba": ["THE DRIFT"], "street": ["579 MEEKER AVE"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11222"], "lat": ["40.721489"], "long": ["-73.942278"], "phone": ["7185047776"], "storeType": ["23"], "lastSold": ["20170321"], "distance": ["0.6"], "otherBrands": [{ "otherBrand": ["Original"] }], "packages": [{ "package": ["4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["4/6"] }] }, { "dba": ["KHIMS MILLENNIUM MARKET"], "street": ["460 DRIGGS AVE"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11211"], "lat": ["40.7192"], "long": ["-73.95419"], "phone": ["7183024152"], "storeType": ["05"], "lastSold": ["20170328"], "distance": ["0.7"], "otherBrands": [{ "otherBrand": ["Hopped", "Original", "Pineapple"] }], "packages": [{ "package": ["4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["4/6"] }] }, { "dba": ["BLUE STAR DELI & ORGANIC"], "street": ["715 LORIMER ST"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11211"], "lat": ["40.718414"], "long": ["-73.950159"], "phone": ["9173913561"], "storeType": ["05"], "lastSold": ["20170321"], "distance": ["0.7"], "otherBrands": [{ "otherBrand": ["Pineapple", "Tx Honey"] }], "packages": [{ "package": ["4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["4/6"] }] }, { "dba": ["595"], "street": ["595 UNION AVE"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11211"], "lat": ["40.71742"], "long": ["-73.95226"], "phone": ["6462381137"], "storeType": ["32"], "lastSold": ["20170330"], "distance": ["0.7"], "otherBrands": [{ "otherBrand": ["Original"] }], "packages": [{ "package": ["4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["4/6"] }] }, { "dba": ["JR UNION MARKET"], "street": ["568 UNION AVE"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11211"], "lat": ["40.7174"], "long": ["-73.95211"], "phone": ["7183879696"], "storeType": ["05"], "lastSold": ["20170321"], "distance": ["0.7"], "otherBrands": [{ "otherBrand": ["Original"] }], "packages": [{ "package": ["4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["4/6"] }] }, { "dba": ["BEVERAGE WORLD"], "street": ["40 LOMBARDY ST"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11222"], "lat": ["40.72183"], "long": ["-73.93987"], "phone": ["7183832200"], "storeType": ["03"], "lastSold": ["20170323"], "distance": ["0.7"], "otherBrands": [{ "otherBrand": ["Original"] }], "packages": [{ "package": ["2/12", "4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["2/12", "4/6"] }] }, { "dba": ["BEDFORD GOURMET FOOD"], "street": ["160 BEDFORD AVE"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11249"], "lat": ["40.65758"], "long": ["-73.95811"], "phone": ["9174151132"], "storeType": ["05"], "lastSold": ["20170321"], "distance": ["0.7"], "otherBrands": [{ "otherBrand": ["Original"] }], "packages": [{ "package": ["4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["4/6"] }] }, { "dba": ["ROEBLING SPORTS CLUB"], "street": ["225 N 8TH ST"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11211"], "lat": ["40.71691"], "long": ["-73.95466"], "phone": ["9176860327"], "storeType": ["23"], "lastSold": ["20170320"], "distance": ["0.8"], "otherBrands": [{ "otherBrand": ["Original"] }], "packages": [{ "package": ["4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["4/6"] }] }, { "dba": ["N7 MARKET"], "street": ["183 BEDFORD AVE"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11211"], "lat": ["40.71781"], "long": ["-73.95765"], "phone": ["7183022100"], "storeType": ["05"], "lastSold": ["20170315"], "distance": ["0.8"], "otherBrands": [{ "otherBrand": ["Original", "Tx Honey"] }], "packages": [{ "package": ["4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["4/6"] }] }, { "dba": ["NAMI FOOD                Y"], "street": ["150 N 7TH ST"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11249"], "lat": ["40.71816"], "long": ["-73.95837"], "phone": ["7182189447"], "storeType": ["05"], "lastSold": ["20170322"], "distance": ["0.8"], "otherBrands": [{ "otherBrand": ["Original", "Pineapple", "Variety"] }], "packages": [{ "package": ["2/12", "4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["2/12", "4/6"] }] }, { "dba": ["OHM DELI"], "street": ["642 LORIMER ST STE A"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11211"], "lat": ["40.71614"], "long": ["-73.94966"], "phone": ["7183899413"], "storeType": ["05"], "lastSold": ["20170328"], "distance": ["0.8"], "otherBrands": [{ "otherBrand": ["Original"] }], "packages": [{ "package": ["4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["4/6"] }] }, { "dba": ["ASSOCIATED SUPERMARKET"], "street": ["57 KINGSLAND AVE"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11211"], "lat": ["40.71816"], "long": ["-73.94045"], "phone": ["7183896725"], "storeType": ["09"], "lastSold": ["20170328"], "distance": ["0.9"], "otherBrands": [{ "otherBrand": ["Original", "Pineapple"] }], "packages": [{ "package": ["4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["4/6"] }] }, { "dba": ["UNION POOL"], "street": ["484 UNION AVE"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11211"], "lat": ["40.71505"], "long": ["-73.95171"], "phone": ["7186090484"], "storeType": ["23"], "lastSold": ["20170328"], "distance": ["0.9"], "otherBrands": [{ "otherBrand": ["Original"] }], "packages": [{ "package": ["2/12"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["2/12"] }] }, { "dba": ["BROOKLYN HARVEST MARKET"], "street": ["25 N 5TH ST"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11249"], "lat": ["40.719577"], "long": ["-73.96337"], "phone": ["7183875533"], "storeType": ["09"], "lastSold": ["20170330"], "distance": ["0.9"], "otherBrands": [{ "otherBrand": ["Original", "Pineapple", "Tx Honey"] }], "packages": [{ "package": ["4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["4/6"] }] }, { "dba": ["KINGS COUNTY IMPERIAL"], "street": ["20 SKILLMAN AVE"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11211"], "lat": ["40.71533"], "long": ["-73.95027"], "phone": ["7186102001"], "storeType": ["32"], "lastSold": ["20170323"], "distance": ["0.9"], "otherBrands": [{ "otherBrand": ["Original"] }], "packages": [{ "package": ["4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["4/6"] }] }, { "dba": ["TWO DOOR TAVERN"], "street": ["116 N 5TH ST"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11249"], "lat": ["40.71716"], "long": ["-73.95974"], "phone": ["7185990222"], "storeType": ["32"], "lastSold": ["20170321"], "distance": ["0.9"], "otherBrands": [{ "otherBrand": ["Tx Honey"] }], "packages": [{ "package": ["4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["4/6"] }] }, { "dba": ["CONCORD HILL"], "street": ["374 GRAHAM AVE"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11211"], "lat": ["40.71557"], "long": ["-73.94448"], "phone": ["6463699810"], "storeType": ["32"], "lastSold": ["20170309"], "distance": ["0.9"], "otherBrands": [{ "otherBrand": ["Original"] }], "packages": [{ "package": ["4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["4/6"] }] }, { "dba": ["THE BROOKLYN STAR"], "street": ["593 LORIMER ST"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11211"], "lat": ["40.71473"], "long": ["-73.94955"], "phone": ["5407380892"], "storeType": ["32"], "lastSold": ["20170323"], "distance": ["0.9"], "otherBrands": [{ "otherBrand": ["Original"] }], "packages": [{ "package": ["1/2"] }], "packageTypes": [{ "packageType": ["KEG"] }], "packageSizes": [{ "packageSize": ["1/2"] }] }, { "dba": ["MACRI PARK"], "street": ["462 UNION AVE STE A"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11211"], "lat": ["40.71423"], "long": ["-73.95158"], "phone": ["7185994999"], "storeType": ["23"], "lastSold": ["20170323"], "distance": ["1"], "otherBrands": [{ "otherBrand": ["Original"] }], "packages": [{ "package": ["1/2"] }], "packageTypes": [{ "packageType": ["KEG"] }], "packageSizes": [{ "packageSize": ["1/2"] }] }, { "dba": ["SUGARGURG"], "street": ["519 METROPOLITAN AVE"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11211"], "lat": ["40.7141"], "long": ["-73.95053"], "phone": ["8457500828"], "storeType": ["23"], "lastSold": ["20170330"], "distance": ["1"], "otherBrands": [{ "otherBrand": ["Original"] }], "packages": [{ "package": ["4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["4/6"] }] }, { "dba": ["WHOLE FOODS MARKET"], "street": ["238 BEDFORD AVE STE A"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11249"], "lat": ["40.715758"], "long": ["-73.960026"], "phone": ["7187342321"], "storeType": ["09"], "lastSold": ["20170327"], "distance": ["1"], "otherBrands": [{ "otherBrand": ["Original", "Pineapple", "Tx Honey", "Variety"] }], "packages": [{ "package": ["2/12", "4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["2/12", "4/6"] }] }, { "dba": ["TWO 21 RESTAURANT"], "street": ["221 N 4TH ST"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11211"], "lat": ["40.71454"], "long": ["-73.95679"], "phone": ["7183025100"], "storeType": ["32"], "lastSold": ["20170313"], "distance": ["1"], "otherBrands": [{ "otherBrand": ["Original"] }], "packages": [{ "package": ["4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["4/6"] }] }, { "dba": ["BAGELSMITH"], "street": ["566 LORIMER ST"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11211"], "lat": ["40.7139"], "long": ["-73.94928"], "phone": ["3472940046"], "storeType": ["05"], "lastSold": ["20170328"], "distance": ["1"], "otherBrands": [{ "otherBrand": ["Original"] }], "packages": [{ "package": ["4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["4/6"] }] }, { "dba": ["CORNER MARKET"], "street": ["344 GRAHAM AVE"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11211"], "lat": ["40.71487"], "long": ["-73.94436"], "phone": ["7183025127"], "storeType": ["05"], "lastSold": ["20170307"], "distance": ["1"], "otherBrands": [{ "otherBrand": ["Original"] }], "packages": [{ "package": ["4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["4/6"] }] }, { "dba": ["HANA FOOD"], "street": ["534 METROPOLITAN AVE"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11211"], "lat": ["40.714"], "long": ["-73.95062"], "phone": ["7182187747"], "storeType": ["05"], "lastSold": ["20170315"], "distance": ["1"], "otherBrands": [{ "otherBrand": ["Original", "Tx Honey"] }], "packages": [{ "package": ["4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["4/6"] }] }, { "dba": ["SUNAC FOOD"], "street": ["440 UNION AVE"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11211"], "lat": ["40.71349"], "long": ["-73.95146"], "phone": ["7186430508"], "storeType": ["05"], "lastSold": ["20170328"], "distance": ["1"], "otherBrands": [{ "otherBrand": ["Hopped", "Original", "Pineapple"] }], "packages": [{ "package": ["4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["4/6"] }] }, { "dba": ["C TOWN SUPERMARKET"], "street": ["330 GRAHAM AVE"], "city": ["BROOKLYN"], "state": ["NY"], "zip": ["11211"], "lat": ["40.71415"], "long": ["-73.94424"], "phone": ["7183888968"], "storeType": ["09"], "lastSold": ["20170328"], "distance": ["1"], "otherBrands": [{ "otherBrand": ["Hopped", "Original"] }], "packages": [{ "package": ["4/6"] }], "packageTypes": [{ "packageType": ["CAN"] }], "packageSizes": [{ "packageSize": ["4/6"] }] }], "start": "1", "end": "50", "total": "414" };
 /*eslint-enable */
 
-/***/ }),
-/* 35 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(6)();
-// imports
-
-
-// module
-exports.push([module.i, "/*! normalize.css v6.0.0 | MIT License | github.com/necolas/normalize.css */\n\n/* Document\n   ========================================================================== */\n\n/**\n * 1. Correct the line height in all browsers.\n * 2. Prevent adjustments of font size after orientation changes in\n *    IE on Windows Phone and in iOS.\n */\n\nhtml {\n  line-height: 1.15; /* 1 */\n  -ms-text-size-adjust: 100%; /* 2 */\n  -webkit-text-size-adjust: 100%; /* 2 */\n}\n\n/* Sections\n   ========================================================================== */\n\n/**\n * Add the correct display in IE 9-.\n */\n\narticle, aside, footer, header, nav, section {\n  display: block;\n}\n\n/**\n * Correct the font size and margin on `h1` elements within `section` and\n * `article` contexts in Chrome, Firefox, and Safari.\n */\n\nh1 {\n  font-size: 2em;\n  margin: 0.67em 0;\n}\n\n/* Grouping content\n   ========================================================================== */\n\n/**\n * Add the correct display in IE 9-.\n * 1. Add the correct display in IE.\n */\n\nfigcaption, figure, main { /* 1 */\n  display: block;\n}\n\n/**\n * Add the correct margin in IE 8.\n */\n\nfigure {\n  margin: 1em 40px;\n}\n\n/**\n * 1. Add the correct box sizing in Firefox.\n * 2. Show the overflow in Edge and IE.\n */\n\nhr {\n  box-sizing: content-box; /* 1 */\n  height: 0; /* 1 */\n  overflow: visible; /* 2 */\n}\n\n/**\n * 1. Correct the inheritance and scaling of font size in all browsers.\n * 2. Correct the odd `em` font sizing in all browsers.\n */\n\npre {\n  font-family: monospace, monospace; /* 1 */\n  font-size: 1em; /* 2 */\n}\n\n/* Text-level semantics\n   ========================================================================== */\n\n/**\n * 1. Remove the gray background on active links in IE 10.\n * 2. Remove gaps in links underline in iOS 8+ and Safari 8+.\n */\n\na {\n  background-color: transparent; /* 1 */\n  -webkit-text-decoration-skip: objects; /* 2 */\n}\n\n/**\n * 1. Remove the bottom border in Chrome 57- and Firefox 39-.\n * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.\n */\n\nabbr[title] {\n  border-bottom: none; /* 1 */\n  text-decoration: underline; /* 2 */\n  text-decoration: underline dotted; /* 2 */\n}\n\n/**\n * Prevent the duplicate application of `bolder` by the next rule in Safari 6.\n */\n\nb, strong {\n  font-weight: inherit;\n}\n\n/**\n * Add the correct font weight in Chrome, Edge, and Safari.\n */\n\nb, strong {\n  font-weight: bolder;\n}\n\n/**\n * 1. Correct the inheritance and scaling of font size in all browsers.\n * 2. Correct the odd `em` font sizing in all browsers.\n */\n\ncode, kbd, samp {\n  font-family: monospace, monospace; /* 1 */\n  font-size: 1em; /* 2 */\n}\n\n/**\n * Add the correct font style in Android 4.3-.\n */\n\ndfn {\n  font-style: italic;\n}\n\n/**\n * Add the correct background and color in IE 9-.\n */\n\nmark {\n  background-color: #ff0;\n  color: #000;\n}\n\n/**\n * Add the correct font size in all browsers.\n */\n\nsmall {\n  font-size: 80%;\n}\n\n/**\n * Prevent `sub` and `sup` elements from affecting the line height in\n * all browsers.\n */\n\nsub, sup {\n  font-size: 75%;\n  line-height: 0;\n  position: relative;\n  vertical-align: baseline;\n}\n\nsub {\n  bottom: -0.25em;\n}\n\nsup {\n  top: -0.5em;\n}\n\n/* Embedded content\n   ========================================================================== */\n\n/**\n * Add the correct display in IE 9-.\n */\n\naudio, video {\n  display: inline-block;\n}\n\n/**\n * Add the correct display in iOS 4-7.\n */\n\naudio:not([controls]) {\n  display: none;\n  height: 0;\n}\n\n/**\n * Remove the border on images inside links in IE 10-.\n */\n\nimg {\n  border-style: none;\n}\n\n/**\n * Hide the overflow in IE.\n */\n\nsvg:not(:root) {\n  overflow: hidden;\n}\n\n/* Forms\n   ========================================================================== */\n\n/**\n * Remove the margin in Firefox and Safari.\n */\n\nbutton, input, optgroup, select, textarea {\n  margin: 0;\n}\n\n/**\n * Show the overflow in IE.\n * 1. Show the overflow in Edge.\n */\n\nbutton, input { /* 1 */\n  overflow: visible;\n}\n\n/**\n * Remove the inheritance of text transform in Edge, Firefox, and IE.\n * 1. Remove the inheritance of text transform in Firefox.\n */\n\nbutton, select { /* 1 */\n  text-transform: none;\n}\n\n/**\n * 1. Prevent a WebKit bug where (2) destroys native `audio` and `video`\n *    controls in Android 4.\n * 2. Correct the inability to style clickable types in iOS and Safari.\n */\n\nbutton, html [type=\"button\"], [type=\"reset\"], [type=\"submit\"] {\n  -webkit-appearance: button; /* 2 */\n}\n\n/**\n * Remove the inner border and padding in Firefox.\n */\n\nbutton::-moz-focus-inner, [type=\"button\"]::-moz-focus-inner, [type=\"reset\"]::-moz-focus-inner, [type=\"submit\"]::-moz-focus-inner {\n  border-style: none;\n  padding: 0;\n}\n\n/**\n * Restore the focus styles unset by the previous rule.\n */\n\nbutton:-moz-focusring, [type=\"button\"]:-moz-focusring, [type=\"reset\"]:-moz-focusring, [type=\"submit\"]:-moz-focusring {\n  outline: 1px dotted ButtonText;\n}\n\n/**\n * 1. Correct the text wrapping in Edge and IE.\n * 2. Correct the color inheritance from `fieldset` elements in IE.\n * 3. Remove the padding so developers are not caught out when they zero out\n *    `fieldset` elements in all browsers.\n */\n\nlegend {\n  box-sizing: border-box; /* 1 */\n  color: inherit; /* 2 */\n  display: table; /* 1 */\n  max-width: 100%; /* 1 */\n  padding: 0; /* 3 */\n  white-space: normal; /* 1 */\n}\n\n/**\n * 1. Add the correct display in IE 9-.\n * 2. Add the correct vertical alignment in Chrome, Firefox, and Opera.\n */\n\nprogress {\n  display: inline-block; /* 1 */\n  vertical-align: baseline; /* 2 */\n}\n\n/**\n * Remove the default vertical scrollbar in IE.\n */\n\ntextarea {\n  overflow: auto;\n}\n\n/**\n * 1. Add the correct box sizing in IE 10-.\n * 2. Remove the padding in IE 10-.\n */\n\n[type=\"checkbox\"], [type=\"radio\"] {\n  box-sizing: border-box; /* 1 */\n  padding: 0; /* 2 */\n}\n\n/**\n * Correct the cursor style of increment and decrement buttons in Chrome.\n */\n\n[type=\"number\"]::-webkit-inner-spin-button, [type=\"number\"]::-webkit-outer-spin-button {\n  height: auto;\n}\n\n/**\n * 1. Correct the odd appearance in Chrome and Safari.\n * 2. Correct the outline style in Safari.\n */\n\n[type=\"search\"] {\n  -webkit-appearance: textfield; /* 1 */\n  outline-offset: -2px; /* 2 */\n}\n\n/**\n * Remove the inner padding and cancel buttons in Chrome and Safari on macOS.\n */\n\n[type=\"search\"]::-webkit-search-cancel-button, [type=\"search\"]::-webkit-search-decoration {\n  -webkit-appearance: none;\n}\n\n/**\n * 1. Correct the inability to style clickable types in iOS and Safari.\n * 2. Change font properties to `inherit` in Safari.\n */\n\n::-webkit-file-upload-button {\n  -webkit-appearance: button; /* 1 */\n  font: inherit; /* 2 */\n}\n\n/* Interactive\n   ========================================================================== */\n\n/*\n * Add the correct display in IE 9-.\n * 1. Add the correct display in Edge, IE, and Firefox.\n */\n\ndetails, menu {\n  display: block;\n}\n\n/*\n * Add the correct display in all browsers.\n */\n\nsummary {\n  display: list-item;\n}\n\n/* Scripting\n   ========================================================================== */\n\n/**\n * Add the correct display in IE 9-.\n */\n\ncanvas {\n  display: inline-block;\n}\n\n/**\n * Add the correct display in IE.\n */\n\ntemplate {\n  display: none;\n}\n\n/* Hidden\n   ========================================================================== */\n\n/**\n * Add the correct display in IE 10-.\n */\n\n[hidden] {\n  display: none;\n}\n\nbody{\n  font-family: Helvetica, Arial, sans-serif;\n}\n\n*{\n  box-sizing: border-box;\n}\n\ninput[type=\"text\"], input[type=\"submit\"], label, select, textarea {\n  outline: 0;\n  border: 0;\n  border-radius: 0;\n  font-size: inherit;\n  position: relative;\n  background-color: transparent;\n  -webkit-appearance: none;\n  border: 2px solid #eee;\n  padding: .9em .8em .85em;\n  min-width: 200px;\n}\n\nselect::-ms-expand {\n  display: none\n}\n\n.locater__form{\n  text-align: center;\n  padding: 2em;\n}\n\n.locater__bottom{\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  height: 600px;\n}\n\n.locater__filters{\n  height:6em;\n  width:100%;\n  left:0;\n  padding: 0 2em;\n  position: absolute;\n  background-color:#fff;\n}\n\n.locater__geo-feedback{\n  display: none\n}\n\n.locater__geo-feedback.is-visible {\n  display: block;\n}\n\n.locater__sidebar{\n  width: 30%;\n  padding: 0 2em;\n  position: relative;\n}\n\n.locater__sidebar-list{\n  overflow:hidden;\n  overflow-y: scroll;\n  height: 100%;\n  padding-top:6em;\n}\n\n.locater__sidebar-list > div {\n  border-bottom: 1px solid #000;\n  padding-bottom: 1em;\n  margin-top: 1em;\n}\n\n.locater__pagination{\n  position: absolute;\n  bottom:0;\n  left:0;\n  width: 100%;\n  border-top: 1px solid #eee;\n  padding: 2em;\n  display:none;\n  background-color:#fff\n}\n\n.locater__pagination.is-active {\n  display: block;\n}\n\n.locater__pagination > a:last-child{\n  float: right;\n}\n\n.locater__map{\n  width: 70%;\n  background: #eee;\n  position: relative;\n}\n\n.locater__redo{\n  padding: 2em;\n  position: absolute;\n  top:1em;\n  right:1em;\n  z-index: 1;\n  background:#fff;\n  cursor: pointer;\n  display:none\n}\n\n.locater__redo.is-visible {\n  display: block;\n}\n\n.locater__map > div{\n  width: 100%;\n  height: 100%;\n}\n", ""]);
-
-// exports
+/*** EXPORTS FROM exports-loader ***/
 
 
 /***/ }),
@@ -2305,7 +2424,7 @@ var stylesInDom = {},
 	singletonElement = null,
 	singletonCounter = 0,
 	styleElementsInsertedAtTop = [],
-	fixUrls = __webpack_require__(24);
+	fixUrls = __webpack_require__(25);
 
 module.exports = function(list, options) {
 	if(typeof DEBUG !== "undefined" && DEBUG) {
@@ -2573,3 +2692,4 @@ module.exports = __webpack_require__(5);
 
 /***/ })
 /******/ ]);
+});
