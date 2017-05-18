@@ -27,16 +27,16 @@ textarea {
 select::-ms-expand {
   display: none
 }
-.locater__form{
+.locator__form{
   text-align: center;
   padding: 2em;
 }
-.locater__bottom{
+.locator__bottom{
   display: flex;
   flex-wrap: wrap;
   height: 600px;
 }
-.locater__filters{
+.locator__filters{
   height:6em;
   width:100%;
   left:0;
@@ -44,19 +44,19 @@ select::-ms-expand {
   position: absolute;
   background-color:#fff;
 }
-.locater__geo-feedback{
+.locator__geo-feedback{
   display: none;
 
   &.is-visible{
     display: block;
   }
 }
-.locater__sidebar{
+.locator__sidebar{
   width: 30%;
   padding: 0 2em;
   position: relative;
 }
-.locater__sidebar-list{
+.locator__sidebar-list{
   overflow:hidden;
   overflow-y: scroll;
   height: 100%;
@@ -68,7 +68,7 @@ select::-ms-expand {
     margin-top: 1em;
   }
 }
-.locater__pagination{
+.locator__pagination{
   position: absolute;
   bottom:0;
   left:0;
@@ -82,15 +82,15 @@ select::-ms-expand {
     display:block;
   }
 }
-.locater__pagination > a:last-child{
+.locator__pagination > a:last-child{
   float: right;
 }
-.locater__map{
+.locator__map{
   width: 70%;
   background: #eee;
   position: relative;
 }
-.locater__redo{
+.locator__redo{
   padding: 2em;
   position: absolute;
   top:1em;
@@ -104,7 +104,7 @@ select::-ms-expand {
     display:block;
   }
 }
-.locater__map > div{
+.locator__map > div{
   width: 100%;
   height: 100%;
 }
