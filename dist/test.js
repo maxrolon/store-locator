@@ -1744,8 +1744,9 @@ var Map = function () {
     }
   }, {
     key: 'hideCenterButton',
-    value: function hideCenterButton() {
+    value: function hideCenterButton(request, next) {
       (0, _utils.hide)(this.fetchFromCenter);
+      next(request);
     }
   }]);
 
