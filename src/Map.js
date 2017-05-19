@@ -179,8 +179,9 @@ class Map {
     show( this.fetchFromCenter )
   }
 
-  hideCenterButton() {
+  hideCenterButton( request, next ) {
     hide( this.fetchFromCenter )
+    next( request )
   }
 }
 
