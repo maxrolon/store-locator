@@ -14,7 +14,7 @@ class Sidebar {
     this.SIDEBAR_TEMPLATE = SIDEBAR_TEMPLATE
 
     this.sidebar = select( SIDEBAR )
-    this.geotrigger = select( GEO_TRIGGER )
+    this.geotrigger = select( GEO_TRIGGER, undefined, true )
     this.geofeedback = select( GEO_FEEDBACK )
     this.filters = select( FILTERS, document.body, true )
 
@@ -23,17 +23,19 @@ class Sidebar {
       this.addToSidebar( res )
     } )
 
-    if ( this.geotrigger ) {
-      on( this.geotrigger, 'click', e => {
-        pd( e )
-        show( this.geofeedback )
-        Emitter.emit( 'request', [
-          'Form/getValues',
-          'Pagination/pageSize',
-          'Sidebar/geolocation',
-          'Sidebar/getFilters',
-          'Map/Geocode',
-        ] )
+    if ( this.geotrigger.length ) {
+      this.geotrigger.forEach( el => {
+        on( el, 'click', e => {
+          pd( e )
+          show( this.geofeedback )
+          Emitter.emit( 'request', [
+            'Form/getValues',
+            'Pagination/pageSize',
+            'Sidebar/geolocation',
+            'Sidebar/getFilters',
+            'Map/Geocode',
+          ] )
+        } )
       } )
     }
 
@@ -100,8 +102,9 @@ class Sidebar {
 
   geolocation( request, next ) {
     this.geofeedback.style.display = 'block'
-    this.geotrigger.style.display = 'none'
-
+    this.geotrigger.forEach( el => {
+      el.style.display = 'none'
+    } )
     navigator.geolocation.getCurrentPosition( res => {
       next( Object.assign( request, {
         lat: res.coords.latitude,

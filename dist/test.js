@@ -1933,7 +1933,7 @@ var Sidebar = function () {
     this.SIDEBAR_TEMPLATE = SIDEBAR_TEMPLATE;
 
     this.sidebar = (0, _dom.select)(SIDEBAR);
-    this.geotrigger = (0, _dom.select)(GEO_TRIGGER);
+    this.geotrigger = (0, _dom.select)(GEO_TRIGGER, undefined, true);
     this.geofeedback = (0, _dom.select)(GEO_FEEDBACK);
     this.filters = (0, _dom.select)(FILTERS, document.body, true);
 
@@ -1942,11 +1942,13 @@ var Sidebar = function () {
       _this.addToSidebar(res);
     });
 
-    if (this.geotrigger) {
-      (0, _dom.on)(this.geotrigger, 'click', function (e) {
-        (0, _utils.pd)(e);
-        (0, _utils.show)(_this.geofeedback);
-        _emitter2.default.emit('request', ['Form/getValues', 'Pagination/pageSize', 'Sidebar/geolocation', 'Sidebar/getFilters', 'Map/Geocode']);
+    if (this.geotrigger.length) {
+      this.geotrigger.forEach(function (el) {
+        (0, _dom.on)(el, 'click', function (e) {
+          (0, _utils.pd)(e);
+          (0, _utils.show)(_this.geofeedback);
+          _emitter2.default.emit('request', ['Form/getValues', 'Pagination/pageSize', 'Sidebar/geolocation', 'Sidebar/getFilters', 'Map/Geocode']);
+        });
       });
     }
 
@@ -2013,8 +2015,9 @@ var Sidebar = function () {
     key: 'geolocation',
     value: function geolocation(request, next) {
       this.geofeedback.style.display = 'block';
-      this.geotrigger.style.display = 'none';
-
+      this.geotrigger.forEach(function (el) {
+        el.style.display = 'none';
+      });
       navigator.geolocation.getCurrentPosition(function (res) {
         next(_extends(request, {
           lat: res.coords.latitude,
