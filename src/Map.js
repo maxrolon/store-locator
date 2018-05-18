@@ -78,7 +78,7 @@ class Map {
     }
     this.resetCenter( middle )
     this.removeMarkers()
-    this.addMarker( {...middle, center: true}, false, true )
+    this.addMarker( {...middle, center: true}, 0, false, true )
     this.addMarkers( req, res )
   }
 
@@ -94,12 +94,12 @@ class Map {
       return
     }
 
-    locations.map( location => {
-      this.addMarker( location )
+    locations.map( ( location, i ) => {
+      this.addMarker( location, ( i + 1 ) )
     } )
   }
 
-  addMarker( location, marker = false, center = false ) {
+  addMarker( location, i, marker = false, center = false ) {
     let size = this.iconSize( location, this.Map.getZoom() )
 
     marker = new this.Google.maps.Marker( {
@@ -111,6 +111,7 @@ class Map {
         url: this.iconPath( location ),
         scaledSize: new this.Google.maps.Size( size, size ),
       },
+      zIndex: i,
       map: this.Map,
     } )
 

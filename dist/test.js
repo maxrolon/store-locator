@@ -1657,7 +1657,7 @@ var Map = function () {
       };
       this.resetCenter(middle);
       this.removeMarkers();
-      this.addMarker(_extends({}, middle, { center: true }), false, true);
+      this.addMarker(_extends({}, middle, { center: true }), 0, false, true);
       this.addMarkers(req, res);
     }
   }, {
@@ -1682,17 +1682,17 @@ var Map = function () {
         return;
       }
 
-      locations.map(function (location) {
-        _this2.addMarker(location);
+      locations.map(function (location, i) {
+        _this2.addMarker(location, i + 1);
       });
     }
   }, {
     key: 'addMarker',
-    value: function addMarker(location) {
+    value: function addMarker(location, i) {
       var _this3 = this;
 
-      var marker = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-      var center = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+      var marker = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+      var center = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
 
       var size = this.iconSize(location, this.Map.getZoom());
 
@@ -1705,6 +1705,7 @@ var Map = function () {
           url: this.iconPath(location),
           scaledSize: new this.Google.maps.Size(size, size)
         },
+        zIndex: i,
         map: this.Map
       });
 
@@ -2247,7 +2248,7 @@ var FILTERS = exports.FILTERS = '.js-locator-filter';
 var FETCH_LOCATIONS_FROM_CENTER = exports.FETCH_LOCATIONS_FROM_CENTER = '.js-locator-redo';
 var GEO_TRIGGER = exports.GEO_TRIGGER = '.js-locator-geo-trigger';
 var GEO_FEEDBACK = exports.GEO_FEEDBACK = '.js-locator-geo-feedback';
-var MAP_KEY = exports.MAP_KEY = 'AIzaSyC2cgfVdeq4VazVwDCWbDZ72AghiHeb09g';
+var MAP_KEY = exports.MAP_KEY = '';
 var MAP_LANG = exports.MAP_LANG = 'en';
 var MAP_REGION = exports.MAP_REGION = 'US';
 var ICON_PATH = exports.ICON_PATH = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
