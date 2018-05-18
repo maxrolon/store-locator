@@ -7,8 +7,7 @@ module.exports = {
     'node': true
   },
   'extends': 'standard',
-  'plugins': [
-  ],
+  'plugins': [],
   'rules': {
     'comma-dangle': [ERROR, 'always-multiline'],
     'keyword-spacing': [ERROR, {after: true, before: true}],

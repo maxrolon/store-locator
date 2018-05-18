@@ -12,10 +12,24 @@ import Request from './Request'
 
 class Map {
 
-  constructor( { MAP_KEY, MAP_LANG, MAP_REGION, MAP, MAP_DEFAULTS, ICON_PATH, MARKER_TEMPLATE, FETCH_LOCATIONS_FROM_CENTER } ) {
+  constructor( { MAP_KEY, MAP_LANG, MAP_REGION, MAP, MAP_DEFAULTS, ICON_PATH, ICON_SIZE, MARKER_TEMPLATE, FETCH_LOCATIONS_FROM_CENTER } ) {
     this.markers = []
     this.map = select( MAP )
-    this.iconPath = ICON_PATH
+
+    this.iconPath = ( location ) => {
+      if ( typeof ICON_PATH.bind === 'undefined' ) {
+        return ICON_PATH
+      }
+      return ICON_PATH( location )
+    }
+
+    this.iconSize = ( location, zoom ) => {
+      if ( ICON_SIZE ) {
+        return ICON_SIZE( location, zoom )
+      }
+      return iconSize( zoom )
+    }
+
     this.markerTemplate = MARKER_TEMPLATE
     this.fetchFromCenter = select( FETCH_LOCATIONS_FROM_CENTER )
 
@@ -58,21 +72,23 @@ class Map {
   }
 
   updateMap( req, res ) {
-    this.resetCenter( {
+    const middle = {
       lat: Number( req.lat ),
       lng: Number( req.lng ),
-    } )
+    }
+    this.resetCenter( middle )
     this.removeMarkers()
-    this.addMarkers( res )
+    this.addMarker( {...middle, center: true}, false, true )
+    this.addMarkers( req, res )
   }
 
   removeMarkers() {
-    this.markers.forEach( marker => marker.setMap( null ) )
+    this.markers.forEach( ( {marker} ) => marker.setMap( null ) )
     this.markers = []
   }
 
-  addMarkers( response ) {
-    let { locations = [] } = response
+  addMarkers( req, res ) {
+    let { locations = [] } = res
 
     if ( locations.length === [] ) {
       return
@@ -83,8 +99,8 @@ class Map {
     } )
   }
 
-  addMarker( location, marker = false ) {
-    let size = iconSize( this.Map.getZoom() )
+  addMarker( location, marker = false, center = false ) {
+    let size = this.iconSize( location, this.Map.getZoom() )
 
     marker = new this.Google.maps.Marker( {
       position: {
@@ -92,19 +108,26 @@ class Map {
         lng: Number( location.lng ),
       },
       icon: {
-        url: this.iconPath,
+        url: this.iconPath( location ),
         scaledSize: new this.Google.maps.Size( size, size ),
       },
       map: this.Map,
     } )
-    marker.html = this.createMarkerHTML( location )
-    marker.name = location.name
-    marker.addListener( 'click', () => this.showModal( marker ) )
-    this.markers.push( marker )
+
+    if ( !center ) {
+      marker.html = this.createMarkerHTML( location )
+      marker.addListener( 'click', () => this.showModal( marker ) )
+      marker.name = location.name
+    } else {
+      marker.name = 'center'
+    }
+    this.markers.push( {location, marker} )
   }
 
   focusOnMarker( name ) {
-    let marker = this.markers.reduce( ( a, b ) => b.name === name ? b : a )
+    let marker = this.markers
+      .map( ( {marker} ) => marker )
+      .reduce( ( a, b ) => b.name === name ? b : a )
     this.resetCenter( marker.getPosition() )
     this.showModal( marker )
   }
@@ -134,11 +157,10 @@ class Map {
   }
 
   updateIcons() {
-    let size = iconSize( this.Map.getZoom() )
-
-    this.markers.forEach( m => {
-      m.setIcon( {
-        url: this.iconPath,
+    this.markers.forEach( ( {location, marker} ) => {
+      let size = this.iconSize( location, this.Map.getZoom() )
+      marker.setIcon( {
+        url: this.iconPath( location ),
         scaledSize: new this.Google.maps.Size( size, size ),
       } )
     } )
