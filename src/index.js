@@ -3,54 +3,35 @@ import Map from './Map'
 import Form from './Form'
 import Sidebar from './Sidebar'
 import Pagination from './Pagination'
+import Bus from './lib/bus'
+import defaults from './lib/defaults'
 
-import Emitter from './lib/emitter'
+function StoreLocator (settings) {
+  this.settings = Object.assign({}, defaults, settings)
 
-import * as Defaults from './lib/constants'
-import * as Templates from './lib/templates'
+  this.bus = new Bus()
+  this.map = new Map(this.settings, this.bus)
+  this.form = new Form(this.settings, this.bus)
+  this.sidebar = new Sidebar(this.settings, this.bus)
+  this.pagination = new Pagination(this.settings,this.bus)
 
-let instance = null
-let components = { Map, Form, Sidebar, Pagination }
-
-class StoreLocator {
-
-  static Components() {
-    return components
-  }
-
-  constructor( opts ) {
-    if ( instance ) {
-      return instance
-    } else {
-      instance = this
-    }
-
-    opts = Object.assign( {}, Defaults, Templates, opts )
-
-    Object.keys( components ).map( key => {
-      this[ key ] = new components[ key ]( opts )
-    } )
-
-    return instance
-  }
-
-  static attachComponent( name, component ) {
-    components[name] = component
-  }
-
-  static attachAjaxHandler( fn ) {
-    Request.attachAjaxHandler( fn )
-  }
-
-  static reset() {
-    instance = null
-  }
+  this.bus.on('request', this.triggerRequest)
 }
 
-Emitter.on( 'request', ( actions, req ) => {
-  return new Request( actions, req )
-} )
+StoreLocator.prototype.triggerRequest = function triggerRequest (actions, req) {
+  return new Request(this.settings, actions, req, this.bus)
+}
 
-export const Components = { Map, Form, Request, Sidebar, Emitter, Pagination }
+StoreLocator.prototype.on = function on (event, fn) {
+  this.bus.addListener(event, fn)
+}
+
+StoreLocator.prototype.off = function off (event, fn) {
+  this.bus.removeListener(event, fn)
+}
+
+StoreLocator.prototype.destroy = function destroy () {
+  // Destroy everything!
+}
 
 export default StoreLocator

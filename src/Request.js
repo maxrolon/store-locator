@@ -1,69 +1,52 @@
-import Emitter from './lib/emitter'
+/**
+ * Empty Fn
+ */
+function noop () {}
 
-let actions = {}
-let ajaxHandler = () => {}
-let previousRequest = {}
-
-class Request {
-
-  constructor( actions = [], request = {} ) {
-    if ( !this.validateRequest( request ) ) {
-      console.log( 'error' )
-    }
-
-    let q = this.createAsyncQueue( request, actions )()
-  }
-
-  createAsyncQueue( request, queue ) {
-    if ( !queue.length ) {
-      ajaxHandler( request, res => (
-        Request.validateResponse( request, res )
-      ) )
-      return () => {}
-    }
-
-    queue.push( ( request ) => {
-      ajaxHandler( request, res => (
-        Request.validateResponse( request, res )
-      ) )
-    } )
-
-    return queue.reverse().reduce( ( a, b ) => {
-      return actions[ b ].fn.bind( actions[ b ].ctx, request, a )
-    } )
-  }
-
-  validateRequest( request ) {
-    return true
-  }
-
-  static ajaxHandler() {
-    return ajaxHandler
-  }
-
-  static attachAjaxHandler( fn ) {
-    ajaxHandler = fn
-  }
-
-  static validateResponse( req, res ) {
-    previousRequest = Object.assign( {}, req )
-    Emitter.emit( 'request-complete', req, res )
-  }
-
-  static addAction( name, fn, ctx ) {
-    actions[ name ] = {
-      ctx: ctx,
-      fn: fn,
-    }
-  }
-
-  static getPreviousRequest( request, next ) {
-    Object.assign( request, previousRequest )
-    next( request )
-  }
-
+/**
+ *
+ * @param {Object} settings
+ * @param {Array} actions String of fn names to call
+ * @param {Object} request
+ * @param {Class} bus
+ */
+function Request ({lookup}, actions = [], request = {}, bus) {
+  this.bus = bus
+  this.lookup = lookup
+  this.createQueue(request, actions)()
 }
 
-Request.addAction( 'Request/getPreviousRequest', Request.getPreviousRequest, Request )
+/**
+ * Creates a queue of functions that are
+ * called one after another
+ *
+ * @param {Object} request
+ * @param {Array} queue
+ */
+Request.prototype.createQueue = function createQueue (request, queue) {
+  if (!queue.length) {
+    this.lookup(request, this.endQueue.bind(this, res))
+    return noop
+  }
+
+  queue.push((request) => {
+    ajaxHandler(request, res => (
+      this.validateResponse(request, res)
+    ))
+  })
+
+  return queue.reverse().reduce((a, b) => {
+    return this.bus.actions[b].fn.bind(this.bus.actions[b].ctx, request, a)
+  })
+}
+
+/**
+ * A function that triggers the end of the queue
+ * and hydrates any listening modules
+ */
+Request.prototype.endQueue = function endQueue () {
+  this.bus.previousRequest = Object.assign({}, req)
+  this.bus.emit('request-complete', req, res)
+}
 
 export default Request

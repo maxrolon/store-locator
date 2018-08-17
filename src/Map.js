@@ -1,210 +1,212 @@
 import Loader from 'google-maps'
-import {select, on} from './lib/dom'
-import Emitter from './lib/emitter'
+import Emitter from './lib/bus'
 import {
   endpointError,
   hide,
   show,
   iconSize,
   pd,
+  select,
+  on
 } from './lib/utils'
 import Request from './Request'
 
 class Map {
-
-  constructor( { MAP_KEY, MAP_LANG, MAP_REGION, MAP, MAP_DEFAULTS, ICON_PATH, ICON_SIZE, MARKER_TEMPLATE, FETCH_LOCATIONS_FROM_CENTER } ) {
+  constructor ({MAP_KEY, MAP_LANG, MAP_REGION, MAP, MAP_DEFAULTS, ICON_PATH, ICON_SIZE, MARKER_TEMPLATE, FETCH_LOCATIONS_FROM_CENTER}) {
     this.markers = []
-    this.map = select( MAP )
+    this.map = select(MAP)
 
-    this.iconPath = ( location ) => {
-      if ( typeof ICON_PATH.bind === 'undefined' ) {
+    this.iconPath = (location) => {
+      if (typeof ICON_PATH.bind === 'undefined') {
         return ICON_PATH
       }
-      return ICON_PATH( location )
+      return ICON_PATH(location)
     }
 
-    this.iconSize = ( location, zoom ) => {
-      if ( ICON_SIZE ) {
-        return ICON_SIZE( location, zoom )
+    this.iconSize = (location, zoom) => {
+      if (ICON_SIZE) {
+        return ICON_SIZE(location, zoom)
       }
-      return iconSize( zoom )
+      return iconSize(zoom)
     }
 
     this.markerTemplate = MARKER_TEMPLATE
-    this.fetchFromCenter = select( FETCH_LOCATIONS_FROM_CENTER )
+    this.fetchFromCenter = select(FETCH_LOCATIONS_FROM_CENTER)
 
     Loader.LIBRARIES = ['geometry', 'places']
     Loader.KEY = MAP_KEY
     Loader.LANGUAGE = MAP_LANG
     Loader.REGION = MAP_REGION
 
-    Emitter.on( 'request-complete', ( req, res ) => this.updateMap( req, res ) )
-    Emitter.on( 'focus-on-marker', name => this.focusOnMarker( name ) )
-    Emitter.on( 'zoom-changed', () => this.updateIcons() )
-    Emitter.on( 'dragend', () => this.showCenterButton() )
+    Emitter.on('request-complete', (req, res) => this.updateMap(req, res))
+    Emitter.on('focus-on-marker', name => this.focusOnMarker(name))
+    Emitter.on('zoom-changed', () => this.updateIcons())
+    Emitter.on('dragend', () => this.showCenterButton())
 
-    Loader.load( Google => {
+    Loader.load(Google => {
       this.Google = Google
-      this.Map = new Google.maps.Map( this.map, MAP_DEFAULTS )
+      this.Map = new Google.maps.Map(this.map, MAP_DEFAULTS)
       this.Geocoder = new Google.maps.Geocoder()
 
-      this.Map.addListener( 'dragend', () => Emitter.emit( 'dragend' ) )
-      this.Map.addListener( 'zoom_changed', () => Emitter.emit( 'zoom-changed' ) )
-    } )
+      this.Map.addListener('dragend', () => Emitter.emit('dragend'))
+      this.Map.addListener('zoom_changed', () => Emitter.emit('zoom-changed'))
+    })
 
-    if ( this.fetchFromCenter ) {
-      on( this.fetchFromCenter, 'click', e => (
-        hide( e.target ), pd( e ), Emitter.emit( 'request', [
+    if (this.fetchFromCenter) {
+      on(this.fetchFromCenter, 'click', e => {
+        hide(e.target)
+        pd(e)
+        Emitter.emit('request', [
           'Form/validate',
           'Form/getValues',
           'Map/hideCenterButton',
           'Map/getCenter',
           'Sidebar/getFilters',
           'Pagination/pageSize',
-          'Map/Geocode',
-        ] )
-      ) )
+          'Map/Geocode'
+        ])
+      })
     }
 
-    Request.addAction( 'Map/Geocode', this.geocode, this )
-    Request.addAction( 'Map/getCenter', this.getCenter, this )
-    Request.addAction( 'Map/hideCenterButton', this.hideCenterButton, this )
+    Request.addAction('Map/Geocode', this.geocode, this)
+    Request.addAction('Map/getCenter', this.getCenter, this)
+    Request.addAction('Map/hideCenterButton', this.hideCenterButton, this)
   }
 
-  updateMap( req, res ) {
+  updateMap (req, res) {
     const middle = {
-      lat: Number( req.lat ),
-      lng: Number( req.lng ),
+      lat: Number(req.lat),
+      lng: Number(req.lng)
     }
-    this.resetCenter( middle )
+    this.resetCenter(middle)
     this.removeMarkers()
-    this.addMarker( {...middle, center: true}, 0, false, true )
-    this.addMarkers( req, res )
+    // this.addMarker({...middle, center: true}, 0, false, true)
+    this.addMarkers(req, res)
   }
 
-  removeMarkers() {
-    this.markers.forEach( ( {marker} ) => marker.setMap( null ) )
+  removeMarkers () {
+    this.markers.forEach(({marker}) => marker.setMap(null))
     this.markers = []
   }
 
-  addMarkers( req, res ) {
-    let { locations = [] } = res
+  addMarkers (req, res) {
+    let {locations = []} = res
 
-    if ( locations.length === [] ) {
+    if (locations.length === []) {
       return
     }
 
-    locations.map( ( location, i ) => {
-      this.addMarker( location, ( i + 1 ) )
-    } )
+    locations.map((location, i) => {
+      this.addMarker(location, (i + 1))
+    })
   }
 
-  addMarker( location, i, marker = false, center = false ) {
-    let size = this.iconSize( location, this.Map.getZoom() )
+  addMarker (location, i, marker = false, center = false) {
+    let size = this.iconSize(location, this.Map.getZoom())
 
-    marker = new this.Google.maps.Marker( {
+    marker = new this.Google.maps.Marker({
       position: {
-        lat: Number( location.lat ),
-        lng: Number( location.lng ),
+        lat: Number(location.lat),
+        lng: Number(location.lng)
       },
       icon: {
-        url: this.iconPath( location ),
-        scaledSize: new this.Google.maps.Size( size, size ),
+        url: this.iconPath(location),
+        scaledSize: new this.Google.maps.Size(size, size)
       },
       zIndex: i,
-      map: this.Map,
-    } )
+      map: this.Map
+    })
 
-    if ( !center ) {
-      marker.html = this.createMarkerHTML( location )
-      marker.addListener( 'click', () => this.showModal( marker ) )
+    if (!center) {
+      marker.html = this.createMarkerHTML(location)
+      marker.addListener('click', () => this.showModal(marker))
       marker.name = location.name
     } else {
       marker.name = 'center'
     }
-    this.markers.push( {location, marker} )
+    this.markers.push({location, marker})
   }
 
-  focusOnMarker( name ) {
+  focusOnMarker (name) {
     let marker = this.markers
-      .map( ( {marker} ) => marker )
-      .reduce( ( a, b ) => b.name === name ? b : a )
-    this.resetCenter( marker.getPosition() )
-    this.showModal( marker )
+      .map(({marker}) => marker)
+      .reduce((a, b) => b.name === name ? b : a)
+    this.resetCenter(marker.getPosition())
+    this.showModal(marker)
   }
 
-  resetCenter( newPosition ) {
-    this.Map.setCenter( newPosition )
+  resetCenter (newPosition) {
+    this.Map.setCenter(newPosition)
   }
 
-  getCenter( request, next ) {
+  getCenter (request, next) {
     let center = this.Map.getCenter()
-    Object.assign( request, {
+    Object.assign(request, {
       lat: center.lat(),
       lng: center.lng(),
-      address: false,
-    } )
-    next( request )
+      address: false
+    })
+    next(request)
   }
 
-  showModal( marker ) {
-    if ( !this.InfoWindow ) {
-      this.InfoWindow = new this.Google.maps.InfoWindow( {
-        map: this.Map,
-      } )
+  showModal (marker) {
+    if (!this.InfoWindow) {
+      this.InfoWindow = new this.Google.maps.InfoWindow({
+        map: this.Map
+      })
     }
-    this.InfoWindow.setContent( marker.html )
-    this.InfoWindow.open( this.Map, marker )
+    this.InfoWindow.setContent(marker.html)
+    this.InfoWindow.open(this.Map, marker)
   }
 
-  updateIcons() {
-    this.markers.forEach( ( {location, marker} ) => {
-      let size = this.iconSize( location, this.Map.getZoom() )
-      marker.setIcon( {
-        url: this.iconPath( location ),
-        scaledSize: new this.Google.maps.Size( size, size ),
-      } )
-    } )
+  updateIcons () {
+    this.markers.forEach(({location, marker}) => {
+      let size = this.iconSize(location, this.Map.getZoom())
+      marker.setIcon({
+        url: this.iconPath(location),
+        scaledSize: new this.Google.maps.Size(size, size)
+      })
+    })
   }
 
-  geocode( request, next ) {
+  geocode (request, next) {
     let geocodeReq = {}
     let address = false
-    if ( request.lat && request.lng ) {
+    if (request.lat && request.lng) {
       geocodeReq['location'] = {
         lat: request.lat,
-        lng: request.lng,
+        lng: request.lng
       }
     } else {
       geocodeReq['address'] = request.address
       address = true
     }
-    this.Geocoder.geocode( geocodeReq, ( res, status ) => {
-      if ( status === 'OK' ) {
+    this.Geocoder.geocode(geocodeReq, (res, status) => {
+      if (status === 'OK') {
         let location = res[0] || {}
         request['address'] = location.formatted_address || ''
-        if ( address ) {
+        if (address) {
           request['lat'] = location.geometry.location.lat()
           request['lng'] = location.geometry.location.lng()
         }
-        next( request )
+        next(request)
       } else {
-        endpointError( 'geocode error' )
+        endpointError('geocode error')
       }
-    } )
+    })
   }
 
-  createMarkerHTML( data ) {
-    return this.markerTemplate( data )
+  createMarkerHTML (data) {
+    return this.markerTemplate(data)
   }
 
-  showCenterButton() {
-    show( this.fetchFromCenter )
+  showCenterButton () {
+    show(this.fetchFromCenter)
   }
 
-  hideCenterButton( request, next ) {
-    hide( this.fetchFromCenter )
-    next( request )
+  hideCenterButton (request, next) {
+    hide(this.fetchFromCenter)
+    next(request)
   }
 }
 
