@@ -1,51 +1,53 @@
-import Emitter from './lib/emitter'
-import Request from './Request'
 import {
   pd,
   select,
-  on
+  on,
+  off
 } from './lib/utils'
 
-class Form {
-  constructor ({FORM}) {
-    this.form = select(FORM)
+function Form ({elements}, bus) {
+  this.bus = bus
+  this.form = select(elements.form)
+  on(this.form, 'submit', this.onSubmit)
 
-    if (this.form) {
-      on(this.form, 'submit', e => {
-        pd(e)
-        Emitter.emit('request', [
-          'Form/validate',
-          'Form/getValues',
-          'Sidebar/getFilters',
-          'Pagination/pageSize',
-          'Map/Geocode'
-        ])
-      })
+  bus.addAction('Form/validate', this.validate, this)
+  bus.addAction('Form/getValues', this.getValues, this)
+  bus.on('response', this.updateAddress.bind(this))
+}
+
+Form.prototype.onSubmit = function onSubmit (e) {
+  e && pd(e)
+  this.bus.emit('request', [
+    'Form/validate',
+    'Form/getValues',
+    'Sidebar/getFilters',
+    'Pagination/pageSize',
+    'Map/Geocode'
+  ])
+}
+
+Form.prototype.validate = function validate (request, next) {
+  // this can be filled out..
+  next()
+}
+
+Form.prototype.getValues = function getValues (request, next) {
+  let els = select('[name]', this.form, true)
+  els.map(el => {
+    if (el.value) {
+      request[ el.getAttribute('name') ] = el.value
     }
+  })
+  next(request)
+}
 
-    Request.addAction('Form/validate', this.validate, this)
-    Request.addAction('Form/getValues', this.getValues, this)
+Form.prototype.updateAddress = function updateAddress (request, response) {
+  const el = select('[name="address"]', this.form)
+  el && (el.value = request.address)
+}
 
-    Emitter.on('request-complete', (req, res) => this.updateAddress(req, res))
-  }
-
-  validate (request, next) {
-    next(request)
-  }
-
-  getValues (request, next) {
-    let els = select('[name]', this.form, true)
-    els.map(el => {
-      if (el.value) {
-        request[ el.getAttribute('name') ] = el.value
-      }
-    })
-    next(request)
-  }
-
-  updateAddress (req, res) {
-    select('[name="address"]', this.form).value = req.address
-  }
+Form.prototype.destroy = function destroy () {
+  off(this.form, 'submit', this.onSubmit)
 }
 
 export default Form

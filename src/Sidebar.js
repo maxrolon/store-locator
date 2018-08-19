@@ -1,116 +1,111 @@
-import Emitter from './lib/bus'
 import {
   clearElement,
   hasClass,
   show,
   pd,
   select,
-  on
+  on,
+  off
 } from './lib/utils'
-import Request from './Request'
 
-class Sidebar {
-  constructor ({SIDEBAR, GEO_TRIGGER, GEO_FEEDBACK, FILTERS, SIDEBAR_TEMPLATE}) {
-    this.SIDEBAR_TEMPLATE = SIDEBAR_TEMPLATE
-    this.sidebar = select(SIDEBAR)
-    this.geotrigger = select(GEO_TRIGGER, undefined, true)
-    this.geofeedback = select(GEO_FEEDBACK)
-    this.filters = select(FILTERS, document.body, true)
+function Sidebar ({elements, templates}, bus) {
+  this.bus = bus
+  this.templates = templates
+  this.sidebar = select(elements.sidebar)
+  this.filters = select(elements.filters) || []
+  this.geolocation = select(elements.geolocation) || []
+  this.onGeolocationClick = this.onGeolocationClick.bind(this)
+  this.onFilterChange = this.onFilterChange.bind(this)
 
-    Emitter.on('request-complete', (req, res) => {
-      clearElement(this.sidebar)
-      this.addToSidebar(res)
-    })
+  this.geolocation.length && this.geolocation.map(el => {
+    on(el, 'click', this.onGeolocationClick)
+  })
 
-    if (this.geotrigger.length) {
-      this.geotrigger.forEach(el => {
-        on(el, 'click', e => {
-          pd(e)
-          show(this.geofeedback)
-          Emitter.emit('request', [
-            'Form/getValues',
-            'Pagination/pageSize',
-            'Sidebar/geolocation',
-            'Sidebar/getFilters',
-            'Map/Geocode'
-          ])
-        })
-      })
-    }
+  this.filters.length && this.filters.map(el => {
+    on(el, 'change', this.onFilterChange)
+  })
 
-    if (this.filters.length) {
-      this.filters.map(el => {
-        on(el, 'change', e => {
-          pd(e)
-          Emitter.emit('request', [
-            'Form/getValues',
-            'Sidebar/getFilters',
-            'Pagination/pageSize',
-            'Map/Geocode'
-          ])
-        })
-      })
-    }
+  bus.on('response', this.onResponse)
+  bus.addAction('Sidebar/getFilters', this.getFilters, this)
+  bus.addAction('Sidebar/geolocation', this.askForGeolocation, this)
+}
 
-    Request.addAction('Sidebar/getFilters', this.getFilters, this)
-    Request.addAction('Sidebar/geolocation', this.geolocation, this)
+Sidebar.prototype.onResponse = function onResponse (req, res) {
+  clearElement(this.sidebar)
+  this.addToSidebar(res)
+}
+
+Sidebar.prototype.onGeolocationClick = function onGeolocationClick (e) {
+  e && pd(e)
+  // show(this.geofeedback)
+  this.bus.emit('request', [
+    'Form/getValues',
+    'Pagination/pageSize',
+    'Sidebar/geolocation',
+    'Sidebar/getFilters',
+    'Map/Geocode'
+  ])
+}
+
+Sidebar.prototype.onFilterChange = function onFilterChange (e) {
+  e && pd(e)
+  this.bus.emit('request', [
+    'Form/getValues',
+    'Sidebar/getFilters',
+    'Pagination/pageSize',
+    'Map/Geocode'
+  ])
+}
+
+Sidebar.prototype.addToSidebar = function addToSidebar (response) {
+  if (!response.locations.length) {
+    return this.noResults()
   }
 
-  addToSidebar (response) {
-    if (!response.locations.length) {
-      return this.noResults()
-    }
+  this.sidebar.scrollTop = 0
 
-    this.sidebar.scrollTop = 0
+  response.locations.map(location => {
+    const item = document.createElement('div')
+    on(item, 'click', e => this.showMarker(e, location))
+    item.innerHTML = this.templates.sidebar(location)
+    this.sidebar.appendChild(item)
+  })
+}
 
-    response.locations.map(location => {
-      let HTML = this.SIDEBAR_TEMPLATE(location)
-      let item = document.createElement('div')
+Sidebar.prototype.showMarker = function showMarker (e, location) {
+  hasClass(e.target, 'js-show-marker') && e && pd(e)
+  this.bus.emit('focus-on-marker', location.name, e)
+}
 
-      on(item, 'click', e => {
-        if (hasClass(e.target, 'js-show-marker')) {
-          pd(e)
-        }
-        Emitter.emit('focus-on-marker', location.name, e)
-      })
+Sidebar.prototype.noResults = function noResults () {
+  this.sidebar.innerHTML = this.templates.empty()
+}
 
-      item.innerHTML = HTML
-      this.sidebar.appendChild(item)
-    })
+Sidebar.prototype.getFilters = function getFilters (request, next) {
+  let vals = this.filters.reduce((obj, el) => {
+    let attr = el.getAttribute('name')
+    if (!el.checked) return obj
+    if (!obj[attr]) obj[attr] = []
+    obj[el.getAttribute('name')].push(el.value)
+    return obj
+  }, {})
+
+  if (request.address || (request.lng && request.lat)) {
+    next(Object.assign(request, vals))
   }
+}
 
-  noResults () {
-    this.sidebar.innerHTML = `
-    <p class="h6 c-gold mxa mt1">No Results Found</p>
-    <p class="mxa">Please enter a zip code to find a store near you.</p>`
-  }
-
-  getFilters (request, next) {
-    let vals = this.filters.reduce((obj, el) => {
-      let attr = el.getAttribute('name')
-      if (!el.checked) return obj
-      if (!obj[ attr ]) obj[ attr ] = []
-      obj[ el.getAttribute('name') ].push(el.value)
-      return obj
-    }, {})
-
-    if (request.address || (request.lng && request.lat)) {
-      next(Object.assign(request, vals))
-    }
-  }
-
-  geolocation (request, next) {
-    this.geofeedback.style.display = 'block'
-    this.geotrigger.forEach(el => {
-      el.style.display = 'none'
-    })
-    navigator.geolocation.getCurrentPosition(res => {
-      next(Object.assign(request, {
-        lat: res.coords.latitude,
-        lng: res.coords.longitude
-      }))
-    })
-  }
+Sidebar.prototype.askForGeolocation = function askForGeolocation (request, next) {
+  this.geofeedback.style.display = 'block'
+  this.geotrigger.forEach(el => {
+    el.style.display = 'none'
+  })
+  navigator.geolocation.getCurrentPosition(res => {
+    next(Object.assign(request, {
+      lat: res.coords.latitude,
+      lng: res.coords.longitude
+    }))
+  })
 }
 
 export default Sidebar

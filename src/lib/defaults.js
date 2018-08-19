@@ -1,4 +1,7 @@
 export default {
+  lookup: function lookup (request, done) {
+    done({})
+  },
   settings: {
     key: '',
     lang: 'en',
@@ -21,9 +24,9 @@ export default {
     sidebar: '.js-list',
     form: '.js-form',
     pagination: '.js-pagination',
-    filter: '.js-location-filter',
+    filter: '.js-filter',
     redo: '.js-redo',
-    geolocation: '.js-geo-trigger'
+    geolocation: '.js-geolocation'
   },
   templates: {
     sidebar (location) {
@@ -31,6 +34,9 @@ export default {
     },
     marker (location) {
       return `<div>${location.name}</div>`
+    },
+    empty () {
+      return `<p>No Results Found</p>`
     }
   }
 }

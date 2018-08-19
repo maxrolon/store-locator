@@ -10,10 +10,11 @@ function noop () {}
  * @param {Object} request
  * @param {Class} bus
  */
-function Request ({lookup}, actions = [], request = {}, bus) {
+function Request ({lookup}, actions = [], bus) {
   this.bus = bus
   this.lookup = lookup
-  this.createQueue(request, actions)()
+  const queue = this.createQueue(actions)
+  queue()
 }
 
 /**
@@ -23,19 +24,23 @@ function Request ({lookup}, actions = [], request = {}, bus) {
  * @param {Object} request
  * @param {Array} queue
  */
-Request.prototype.createQueue = function createQueue (request, queue) {
-  if (!queue.length) {
-    this.lookup(request, this.endQueue.bind(this, res))
+Request.prototype.createQueue = function createQueue (actions, request = {}) {
+  if (!actions.length) {
+    this.lookup(request, (response) => {
+      this.endQueue(request, response)
+    })
     return noop
   }
 
-  queue.push((request) => {
-    ajaxHandler(request, res => (
-      this.validateResponse(request, res)
-    ))
+  actions = actions.filter(name => this.bus.actions[name])
+
+  actions.push(() => {
+    this.lookup(request, (response) => {
+      this.endQueue(request, response)
+    })
   })
 
-  return queue.reverse().reduce((a, b) => {
+  return actions.reverse().reduce((a, b) => {
     return this.bus.actions[b].fn.bind(this.bus.actions[b].ctx, request, a)
   })
 }
@@ -44,9 +49,9 @@ Request.prototype.createQueue = function createQueue (request, queue) {
  * A function that triggers the end of the queue
  * and hydrates any listening modules
  */
-Request.prototype.endQueue = function endQueue () {
+Request.prototype.endQueue = function endQueue (req, res) {
   this.bus.previousRequest = Object.assign({}, req)
-  this.bus.emit('request-complete', req, res)
+  this.bus.emit('response', req, res)
 }
 
 export default Request

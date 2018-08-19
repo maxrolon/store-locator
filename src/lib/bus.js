@@ -12,11 +12,15 @@ Bus.prototype.addAction = function addAction (name, fn, ctx) {
   }
 }
 
-Bus.prototype.addListener = function addListener () {
+Bus.prototype.removeAction = function removeAction (name) {
+  delete this.actions[name]
+}
+
+Bus.prototype.on = function on () {
   this.emitter.on.apply(this.emitter, arguments)
 }
 
-Bus.prototype.removeListener = function removeListener () {
+Bus.prototype.off = function off () {
   this.emitter.off.apply(this.emitter, arguments)
 }
 

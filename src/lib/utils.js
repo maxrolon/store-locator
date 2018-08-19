@@ -24,6 +24,8 @@ export const iconSize = zoom => zoom * 1.3
 
 export const pd = e => e.preventDefault()
 
+export const noop = function noop () {}
+
 export const select = (selector, parent = document, all = false) => {
   return (all
     ? [].slice.call(parent.querySelectorAll(selector))

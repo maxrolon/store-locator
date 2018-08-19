@@ -1,89 +1,94 @@
-import Emitter from './lib/bus'
 import {
   hasClass,
   pd,
   select,
-  on
+  on,
+  off
 } from './lib/utils'
-import Request from './Request'
 
-class Pagination {
-  constructor ({PAGINATION}) {
-    this.pagination = select(PAGINATION)
-    this.left = select('[data-dir="prev"]', this.pagination)
-    this.right = select('[data-dir="next"]', this.pagination)
-    this.page = 1
+function Pagination ({elements}, bus) {
+  this.bus = bus
+  this.pagination = select(elements.pagination)
+  this.left = select('[data-dir="prev"]', this.pagination)
+  this.right = select('[data-dir="next"]', this.pagination)
+  this.page = 1
 
-    if (this.pagination) {
-      on(this.pagination, 'click', e => {
-        pd(e)
-        this.incrementPage(e) !== false && Emitter.emit('request', [
-          'Request/getPreviousRequest',
-          'Pagination/pageSize',
-          'Pagination/getCurrentPage'
-        ])
-      })
-    }
+  this.onClick = this.onClick.bind(this)
 
-    Emitter.on('request-complete', (req, res) => {
-      this.updatePagination(res)
-      this.updateDOM()
-    })
+  on(this.pagination, 'click', this.onClick)
 
-    Request.addAction('Pagination/getCurrentPage', this.getCurrentPage, this)
-    Request.addAction('Pagination/pageSize', this.addPageSizeToRequest, this)
-  }
+  bus.on('response', this.onResponse)
+  bus.addAction('Pagination/getCurrentPage', this.getCurrentPage, this)
+  bus.addAction('Pagination/pageSize', this.addPageSizeToRequest, this)
+}
 
-  incrementPage (e) {
-    let el = e.target
+Pagination.prototype.onClick = function onClick (e) {
+  e && pd(e)
+  this.incrementPage(e) !== false && this.bus.emit('request', [
+    'Request/getPreviousRequest',
+    'Pagination/pageSize',
+    'Pagination/getCurrentPage'
+  ])
+}
 
-    if (!hasClass(el, 'is-active')) {
-      return false
-    }
+Pagination.prototype.onResponse = function onResponse (req, res) {
+  this.updatePagination(res)
+  this.updateDOM()
+}
 
-    if (hasClass(el, 'js-prev')) {
-      return (this.page--)
-    }
+Pagination.prototype.destroy = function destroy () {
+  off(this.pagination, 'click', this.onClick)
+}
 
-    if (hasClass(e.target, 'js-next')) {
-      return (this.page++)
-    }
+Pagination.prototype.incrementPage = function incrementPage (e) {
+  let el = e.target
 
+  if (!hasClass(el, 'is-active')) {
     return false
   }
 
-  updatePagination (request) {
-    this.first = Number(request.first)
-    this.pageCount = Math.round(Number(request.total) / this.pageSize())
-    this.page = (Math.round(Number(request.end) / this.pageSize()) - 1)
+  if (hasClass(el, 'js-prev')) {
+    return (this.page--)
   }
 
-  pageSize () {
-    return window.innerWidth < 1000 ? 5 : 50
+  if (hasClass(e.target, 'js-next')) {
+    return (this.page++)
   }
 
-  addPageSizeToRequest (request, next) {
-    Object.assign(request, {pagesize: this.pageSize()})
-    next(request)
-  }
+  return false
+}
 
-  updateDOM () {
-    this.pagination.classList.add('is-active')
-    this.left.classList[ this.hasPrevPage() ? 'add' : 'remove' ]('is-active')
-    this.right.classList[ this.hasNextPage() ? 'add' : 'remove' ]('is-active')
-  }
+Pagination.prototype.updatePagination = function updatePagination (request) {
+  this.first = Number(request.first)
+  this.pageCount = Math.round(Number(request.total) / this.pageSize())
+  this.page = (Math.round(Number(request.end) / this.pageSize()) - 1)
+}
 
-  hasPrevPage () {
-    return this.page > 0
-  }
+Pagination.prototype.pageSize = function pageSize () {
+  return window.innerWidth < 1000 ? 5 : 50
+}
 
-  hasNextPage () {
-    return this.page + 1 < this.pageCount
-  }
+Pagination.prototype.addPageSizeToRequest = function addPageSizeToRequest (request, next) {
+  Object.assign(request, {pagesize: this.pageSize()})
+  next(request)
+}
 
-  getCurrentPage (request, next) {
-    next((request['page'] = this.page, request))
-  }
+Pagination.prototype.updateDOM = function updateDOM () {
+  this.pagination.classList.add('is-active')
+  this.left.classList[ this.hasPrevPage() ? 'add' : 'remove' ]('is-active')
+  this.right.classList[ this.hasNextPage() ? 'add' : 'remove' ]('is-active')
+}
+
+Pagination.prototype.hasPrevPage = function hasPrevPage () {
+  return this.page > 0
+}
+
+Pagination.prototype.hasNextPage = function hasNextPage () {
+  return this.page + 1 < this.pageCount
+}
+
+Pagination.prototype.getCurrentPage = function getCurrentPage (request, next) {
+  next((request['page'] = this.page, request))
 }
 
 export default Pagination

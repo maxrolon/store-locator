@@ -10,14 +10,15 @@
     "build": "microbundle build",
     "watch": "microbundle watch --compress false",
     "publish": "npm publish",
-    "test": "ava test/index.js -v"
+    "lint": "standard src/index.js",
+    "test": " ava test/** -v -w --match='!Skip:*'"
   },
   "ava": {
     "require": [
       "./test/helpers/mock-env.js",
-      "babel-register"
-    ],
-    "babel": "inherit"
+      "./test/helpers/babel-register.js",
+      "./test/helpers/dependency-interceptor.js"
+    ]
   },
   "repository": {
     "type": "git",
@@ -31,9 +32,17 @@
   },
   "homepage": "https://github.com/maxrolon/store-locator",
   "devDependencies": {
-    "ava": "^0.25.0",
+    "@babel/core": "^7.0.0-rc.1",
+    "@babel/preset-env": "^7.0.0-rc.1",
+    "@babel/preset-stage-3": "^7.0.0-rc.1",
+    "@babel/register": "^7.0.0-rc.1",
+    "ava": "^1.0.0-beta.4",
+    "babel-preset-es2015": "^6.24.1",
+    "jsdom": "^11.12.0",
     "microbundle": "^0.5.1",
-    "sinon": "^6.1.5"
+    "pirates": "^4.0.0",
+    "sinon": "^6.1.5",
+    "standard": "^11.0.1"
   },
   "dependencies": {
     "event-emitter": "^0.3.5",
