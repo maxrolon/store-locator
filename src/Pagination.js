@@ -36,10 +36,6 @@ Pagination.prototype.onResponse = function onResponse (req, res) {
   this.updateDOM()
 }
 
-Pagination.prototype.destroy = function destroy () {
-  off(this.pagination, 'click', this.onClick)
-}
-
 Pagination.prototype.incrementPage = function incrementPage (e) {
   let el = e.target
 
@@ -89,6 +85,10 @@ Pagination.prototype.hasNextPage = function hasNextPage () {
 
 Pagination.prototype.getCurrentPage = function getCurrentPage (request, next) {
   next((request['page'] = this.page, request))
+}
+
+Pagination.prototype.destroy = function destroy () {
+  off(this.pagination, 'click', this.onClick)
 }
 
 export default Pagination

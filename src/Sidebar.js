@@ -108,4 +108,6 @@ Sidebar.prototype.askForGeolocation = function askForGeolocation (request, next)
   })
 }
 
+Sidebar.prototype.destroy = function destroy () {}
+
 export default Sidebar
