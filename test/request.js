@@ -1,7 +1,7 @@
 import test from 'ava'
 import StoreLocater from '../src/'
 
-test('Skip: Lookup gets called', t => {
+test('Lookup gets called', t => {
   let triggered = false
   const instance = new StoreLocater({
     lookup () {
@@ -13,7 +13,7 @@ test('Skip: Lookup gets called', t => {
   t.true(triggered)
 })
 
-test('Skip: Queue gets called in proper order', t => {
+test('Queue gets called in proper order', t => {
   let calls = []
   const instance = new StoreLocater()
   const action1 = function action1 (request, next) {
@@ -31,7 +31,7 @@ test('Skip: Queue gets called in proper order', t => {
   t.true(calls[1] === 'ACTION2')
 })
 
-test('Skip: Queue passes on request object', t => {
+test('Queue passes on request object', t => {
   const instance = new StoreLocater()
   const action1 = function action1 (request, next) {
     request['ACTION1'] = true
@@ -50,9 +50,19 @@ test('Skip: Queue passes on request object', t => {
   instance.bus.emit('request', ['ACTION1', 'ACTION2'])
 })
 
-test('Skip: Missing actions are skipped', t => {
+test('Missing actions are skipped', t => {
   const instance = new StoreLocater()
   instance.bus.emit('request', ['ACTION1'])
   // Just need to make sure this test doesn't throw an error
   t.true(true)
+})
+
+test('applyFilters overrides default actions array', t => {
+  let called = false
+  const instance = new StoreLocater()
+  instance.bus.addFilter('Form/onSubmit/request', function () {
+    called = true
+  })
+  instance.form.onSubmit()
+  t.true(called)
 })

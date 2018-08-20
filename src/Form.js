@@ -8,22 +8,26 @@ import {
 function Form ({elements}, bus) {
   this.bus = bus
   this.form = select(elements.form)
-  on(this.form, 'submit', this.onSubmit)
+  this.onSubmit = this.onSubmit.bind(this)
 
-  bus.addAction('Form/validate', this.validate, this)
-  bus.addAction('Form/getValues', this.getValues, this)
-  bus.on('response', this.updateAddress.bind(this))
+  if (this.form) {
+    on(this.form, 'submit', this.onSubmit)
+    bus.addAction('Form/validate', this.validate, this)
+    bus.addAction('Form/getValues', this.getValues, this)
+    bus.on('response', this.updateAddress.bind(this))
+  }
 }
 
 Form.prototype.onSubmit = function onSubmit (e) {
   e && pd(e)
-  this.bus.emit('request', [
+  this.bus.emit('request', this.bus.applyFilter('Form/onSubmit/request', [
     'Form/validate',
     'Form/getValues',
     'Sidebar/getFilters',
     'Pagination/pageSize',
+    'Pagination/getCurrentPage',
     'Map/Geocode'
-  ])
+  ]))
 }
 
 Form.prototype.validate = function validate (request, next) {
@@ -47,7 +51,9 @@ Form.prototype.updateAddress = function updateAddress (request, response) {
 }
 
 Form.prototype.destroy = function destroy () {
-  off(this.form, 'submit', this.onSubmit)
+  if (this.form) {
+    off(this.form, 'submit', this.onSubmit)
+  }
 }
 
 export default Form

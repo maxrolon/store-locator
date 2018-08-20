@@ -29,7 +29,9 @@ function Map ({settings, elements, templates}, bus) {
   bus.addAction('Map/getCenter', this.getCenter, this)
   bus.addAction('Map/hideCenterButton', this.hideCenterButton, this)
 
-  on(this.redo, 'click', this.onRedo)
+  if (this.redo) {
+    on(this.redo, 'click', this.onRedo)
+  }
 
   Loader.LIBRARIES = ['geometry', 'places']
   Loader.KEY = settings.key
@@ -51,15 +53,16 @@ Map.prototype.googleHasLoaded = function googleHasLoaded (Google) {
 Map.prototype.onRedo = function onRedo (e) {
   e && pd(e)
   e && e.target && hide(e.target)
-  this.bus.emit('request', [
+  this.bus.emit('request', this.bus.applyFilter('Map/onRedo/request', [
     'Form/validate',
     'Form/getValues',
     'Map/hideCenterButton',
     'Map/getCenter',
     'Sidebar/getFilters',
     'Pagination/pageSize',
+    'Pagination/getCurrentPage',
     'Map/Geocode'
-  ])
+  ]))
 }
 
 Map.prototype.updateMap = function updateMap (req, res) {
@@ -121,7 +124,7 @@ Map.prototype.addMarker = function addMarker (location, i, marker = false, cente
 
 Map.prototype.showModal = function showModal (marker) {
   if (!this.InfoWindow) {
-    this.InfoWindow = new this.Google.maps.InfoWindow({
+    this.InfoWindow = new this.google.core.maps.InfoWindow({
       map: this.google.map
     })
   }
@@ -143,16 +146,18 @@ Map.prototype.focusOnMarker = function focusOnMarker (name) {
 
 Map.prototype.updateIcons = function updateIcons () {
   this.markers.forEach(({location, marker}) => {
-    let size = this.settings.iconSize(location, this.Map.getZoom())
+    let size = this.settings.iconSize(location, this.google.map.getZoom())
     marker.setIcon({
       url: this.settings.icon(location),
-      scaledSize: new this.Google.maps.Size(size, size)
+      scaledSize: new this.google.core.maps.Size(size, size)
     })
   })
 }
 
 Map.prototype.showCenterButton = function showCenterButton () {
-  show(this.redo)
+  if (this.redo) {
+    show(this.redo)
+  }
 }
 
 Map.prototype.geocode = function geocode (request, next) {
@@ -170,7 +175,7 @@ Map.prototype.geocode = function geocode (request, next) {
   this.google.geocoder.geocode(geocodeReq, (res, status) => {
     if (status === 'OK') {
       let location = res[0] || {}
-      request['address'] = location.formatted_address || ''
+      request['address'] = location.formatted_address || request.address
       if (address) {
         request['lat'] = location.geometry.location.lat()
         request['lng'] = location.geometry.location.lng()

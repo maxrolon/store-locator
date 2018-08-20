@@ -12,10 +12,16 @@ function Sidebar ({elements, templates}, bus) {
   this.bus = bus
   this.templates = templates
   this.sidebar = select(elements.sidebar)
-  this.filters = select(elements.filters) || []
-  this.geolocation = select(elements.geolocation) || []
+  this.filters = select(elements.filter, document, true) || []
+  this.geolocation = select(elements.geolocation, document, true) || []
+  this.geolocationFeedback = select(elements.geolocationFeedback, document, true) || []
   this.onGeolocationClick = this.onGeolocationClick.bind(this)
   this.onFilterChange = this.onFilterChange.bind(this)
+  this.onResponse = this.onResponse.bind(this)
+
+  if (!this.sidebar) {
+    return
+  }
 
   this.geolocation.length && this.geolocation.map(el => {
     on(el, 'click', this.onGeolocationClick)
@@ -30,31 +36,32 @@ function Sidebar ({elements, templates}, bus) {
   bus.addAction('Sidebar/geolocation', this.askForGeolocation, this)
 }
 
-Sidebar.prototype.onResponse = function onResponse (req, res) {
-  clearElement(this.sidebar)
-  this.addToSidebar(res)
-}
-
 Sidebar.prototype.onGeolocationClick = function onGeolocationClick (e) {
   e && pd(e)
   // show(this.geofeedback)
-  this.bus.emit('request', [
+  this.bus.emit('request', this.bus.applyFilter('Sidebar/onGeolocationClick/request', [
     'Form/getValues',
     'Pagination/pageSize',
+    'Pagination/getCurrentPage',
     'Sidebar/geolocation',
     'Sidebar/getFilters',
     'Map/Geocode'
-  ])
+  ]))
 }
 
 Sidebar.prototype.onFilterChange = function onFilterChange (e) {
   e && pd(e)
-  this.bus.emit('request', [
+  this.bus.emit('request', this.bus.applyFilter('Sidebar/onFilterChange/request',[
     'Form/getValues',
     'Sidebar/getFilters',
     'Pagination/pageSize',
     'Map/Geocode'
-  ])
+  ]))
+}
+
+Sidebar.prototype.onResponse = function onResponse (req, res) {
+  clearElement(this.sidebar)
+  this.addToSidebar(res)
 }
 
 Sidebar.prototype.addToSidebar = function addToSidebar (response) {
@@ -73,7 +80,7 @@ Sidebar.prototype.addToSidebar = function addToSidebar (response) {
 }
 
 Sidebar.prototype.showMarker = function showMarker (e, location) {
-  hasClass(e.target, 'js-show-marker') && e && pd(e)
+  e && pd(e)
   this.bus.emit('focus-on-marker', location.name, e)
 }
 
@@ -90,16 +97,22 @@ Sidebar.prototype.getFilters = function getFilters (request, next) {
     return obj
   }, {})
 
-  if (request.address || (request.lng && request.lat)) {
+  if (Object.keys(vals).length) {
     next(Object.assign(request, vals))
+  } else {
+    next(request)
   }
 }
 
 Sidebar.prototype.askForGeolocation = function askForGeolocation (request, next) {
-  this.geofeedback.style.display = 'block'
-  this.geotrigger.forEach(el => {
-    el.style.display = 'none'
-  })
+  if (this.geolocation.length) {
+    this.geolocation.forEach(el => {
+      el.style.display = 'none'
+    })
+  }
+  if (this.geolocationFeedback.length) {
+    this.geolocationFeedback.forEach(el => show(el))
+  }
   navigator.geolocation.getCurrentPosition(res => {
     next(Object.assign(request, {
       lat: res.coords.latitude,
@@ -108,6 +121,14 @@ Sidebar.prototype.askForGeolocation = function askForGeolocation (request, next)
   })
 }
 
-Sidebar.prototype.destroy = function destroy () {}
+Sidebar.prototype.destroy = function destroy () {
+  this.geolocation.length && this.geolocation.map(el => {
+    off(el, 'click', this.onGeolocationClick)
+  })
+
+  this.filters.length && this.filters.map(el => {
+    off(el, 'change', this.onFilterChange)
+  })
+}
 
 export default Sidebar

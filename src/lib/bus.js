@@ -2,7 +2,8 @@ import Emitter from 'event-emitter'
 
 function Bus () {
   this.emitter = new Emitter()
-  this.actions = []
+  this.actions = {}
+  this.filters = {}
 }
 
 Bus.prototype.addAction = function addAction (name, fn, ctx) {
@@ -26,6 +27,21 @@ Bus.prototype.off = function off () {
 
 Bus.prototype.emit = function emit () {
   this.emitter.emit.apply(this.emitter, arguments)
+}
+
+Bus.prototype.applyFilter = function applyFilter (name, data) {
+  const filter = this.filters[name]
+  if (filter && filter.fn && filter.fn.bind) {
+    return filter.fn(data)
+  }
+  return data
+}
+
+Bus.prototype.addFilter = function addFilter (name, fn, ctx = false) {
+  this.filters[name] = {
+    ctx: ctx,
+    fn: fn
+  }
 }
 
 export default Bus

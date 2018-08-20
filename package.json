@@ -11,7 +11,7 @@
     "watch": "microbundle watch --compress false",
     "publish": "npm publish",
     "lint": "standard src/index.js",
-    "test": " ava test/** -v -w --match='!Skip:*'"
+    "test": " ava test/** -v -w --match='*'"
   },
   "ava": {
     "require": [

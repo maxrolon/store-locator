@@ -2,13 +2,13 @@ import test from 'ava'
 import Loader from 'google-maps'
 import StoreLocater from '../src/'
 
-test('Skip: Test registering of map event handlers', t => {
+test('Test registering of map event handlers', t => {
   new StoreLocater() //eslint-disable-line
   t.true(!!Loader.happenings.find(({name}) => name === 'dragend'))
   t.true(!!Loader.happenings.find(({name}) => name === 'zoom_changed'))
 })
 
-test('Skip: Redo event handler starts queue', t => {
+test('Redo event handler starts queue', t => {
   const instance = new StoreLocater()
   instance.addAction('Form/validate', function (request, next) {
     t.true(true)
@@ -16,7 +16,7 @@ test('Skip: Redo event handler starts queue', t => {
   instance.map.onRedo()
 })
 
-test('Skip: Redo event handler ends queue', t => {
+test('Redo event handler ends queue', t => {
   const instance = new StoreLocater()
   instance.on('response', (request, response) => {
     t.true(true)
@@ -24,7 +24,7 @@ test('Skip: Redo event handler ends queue', t => {
   instance.map.onRedo()
 })
 
-test('Skip: First marker to be rendered is center', t => {
+test('First marker to be rendered is center', t => {
   const instance = new StoreLocater({
     lookup (request, next) {
       next({

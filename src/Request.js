@@ -33,7 +33,6 @@ Request.prototype.createQueue = function createQueue (actions, request = {}) {
   }
 
   actions = actions.filter(name => this.bus.actions[name])
-
   actions.push(() => {
     this.lookup(request, (response) => {
       this.endQueue(request, response)
@@ -51,7 +50,7 @@ Request.prototype.createQueue = function createQueue (actions, request = {}) {
  */
 Request.prototype.endQueue = function endQueue (req, res) {
   this.bus.previousRequest = Object.assign({}, req)
-  this.bus.emit('response', req, res)
+  this.bus.emit('response', req, Object.assign({locations: []}, res))
 }
 
 export default Request

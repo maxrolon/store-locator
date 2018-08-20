@@ -7,9 +7,18 @@ import Form from './Form'
 import Sidebar from './Sidebar'
 import Pagination from './Pagination'
 
-function StoreLocator (settings = {}) {
-  this.settings = Object.assign({}, defaults, settings)
-
+function StoreLocator (opts = {}) {
+  const {settings, elements} = opts
+  this.settings = {
+    lookup: (opts.lookup || defaults.lookup),
+    settings: Object.assign({}, defaults.settings, settings),
+    elements: Object.assign({}, defaults.elements, elements)
+  }
+  const templates = Object.assign({}, defaults.templates, opts.templates)
+  Object.keys(templates).map(key => {
+    templates[key] = templates[key].bind(this)
+  })
+  this.settings['templates'] = templates
   this.bus = new Bus()
   this.map = new Map(this.settings, this.bus)
   this.form = new Form(this.settings, this.bus)

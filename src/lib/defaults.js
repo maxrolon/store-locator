@@ -1,6 +1,6 @@
 export default {
   lookup: function lookup (request, done) {
-    done({})
+    done({locations: []})
   },
   settings: {
     key: '',
@@ -17,16 +17,23 @@ export default {
     },
     iconSize (location, zoom) {
       return zoom * 1.5
-    }
+    },
+    paginate: true,
+    pageSize: 50,
+    mobilePageSize: 5,
+    mobileBreakpoint: 1000
   },
   elements: {
     map: '.js-map',
-    sidebar: '.js-list',
+    sidebar: '.js-sidebar',
     form: '.js-form',
     pagination: '.js-pagination',
+    nextPage: '.js-next',
+    prevPage: '.js-prev',
     filter: '.js-filter',
     redo: '.js-redo',
-    geolocation: '.js-geolocation'
+    geolocation: '.js-geolocation',
+    geolocationFeedback: '.js-geolocation-feedback'
   },
   templates: {
     sidebar (location) {
