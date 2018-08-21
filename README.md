@@ -254,18 +254,23 @@ const locator = new StoreLocator({
 import StoreLocator from 'store-locator'
 import jsonp from 'jsonp'
 
+const endpoint = 'https://stockist.co/api/v1/<account-id>/locations/search'
+
+function convertToQuery (request) {
+  return Object.keys(request).map(key => (
+    `${k}=${encodeURIComponent(request[key])}`
+  )).join('&')
+}
+
 const locator = new StoreLocator({
   lookup (request, next) {
-    const query = Object.keys(request).map(k => {
-      return `${k}=${encodeURIComponent(request[k])}`
-    }).join('&')
+    const query = convertToQuery(request)
 
-    jsonp(`${APIENDPOINT}?${query}`, {
+    jsonp(`${endpoint}?${query}`, {
       param: 'callback'
     }, (err, {locations = []}) => {
       if (err) {
-        // Do something on error
-        return
+        throw new Error(':( Oh no!')
       }
       
       locations = locations
