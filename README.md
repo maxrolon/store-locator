@@ -249,7 +249,7 @@ const locator = new StoreLocator({
 </div>
 ```
 
-#### A simple Javacript example
+#### A simple Javascript example
 ```js
 import StoreLocator from 'store-locator'
 import jsonp from 'jsonp'
