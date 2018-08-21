@@ -258,7 +258,7 @@ const endpoint = 'https://stockist.co/api/v1/<account-id>/locations/search'
 
 function convertToQuery (request) {
   return Object.keys(request).map(key => (
-    `${k}=${encodeURIComponent(request[key])}`
+    `${key}=${encodeURIComponent(request[key])}`
   )).join('&')
 }
 
