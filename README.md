@@ -248,3 +248,35 @@ const locator = new StoreLocator({
   </div>
 </div>
 ```
+
+#### A simple Javacript example
+```js
+import StoreLocator from 'store-locator'
+import jsonp from 'jsonp'
+
+const locator = new StoreLocator({
+  lookup (request, next) {
+    const query = Object.keys(request).map(k => {
+      return `${k}=${encodeURIComponent(request[k])}`
+    }).join('&')
+
+    jsonp(`${APIENDPOINT}?${query}`, {
+      param: 'callback'
+    }, (err, {locations = []}) => {
+      if (err) {
+        // Do something on error
+        return
+      }
+      
+      locations = locations
+        .map(({latitude, longitude, ...location}) => ({
+          lat: latitude,
+          lng: longitude,
+          ...location
+        }))
+      
+      next({locations})
+    })
+  }
+})
+```
