@@ -7,13 +7,17 @@ This module allows a developer to quickly whip up a store locator module on a we
 npm i store-locator --save
 ```
 
-#### API (More information to come)
+#### Configuration
 ``` javascript
 import StoreLocator from 'store-locator'
 
 const locator = new StoreLocator({
 
   /**
+   * Lookup () {}
+   * @param {object} request A simple object carrying request information
+   * @param {function} done A callback function to fire when done
+   * 
    * This method is used to request locations from
    * whatever backend service you are using. The function
    * is provided with a request object that contains
@@ -27,7 +31,6 @@ const locator = new StoreLocator({
    *     <option value="10" selected>10 miles</select>
    *     <option value="20">20 miles</select>
    *   </select>
-   *   <input name="distance" type="text" value="20" />
    *   <select name="product">
    *     <option value="zinfandel" selected>Zinfandel</select>
    *     <option value="pinot-noir">Pinot Noir</select>
@@ -64,8 +67,7 @@ const locator = new StoreLocator({
    * 
    * Note: The pagination properties are optional.
    * 
-   * @param {object} request
-   * @param {function} done
+   * 
    */
   lookup (request, done) {
     window.fetch('https://locations.json', {
@@ -113,7 +115,20 @@ const locator = new StoreLocator({
     /* Return the icon size you would like to use for each location */
     iconSize (location, currentMapZoomAmount) {
       return zoom * 1.5
-    }
+    },
+
+    /* Turns pagination off */
+    paginate: true,
+
+    /* Sets the page size sent to the endpoint */
+    pageSize: 50,
+    
+    /* Sets the page size sent to the endpoint on window 
+     * widths below the mobileBreakpoint */
+    mobilePageSize: 5,
+
+    /* The breakpoint that switches the pagination page size */
+    mobileBreakpoint: 768
   },
 
   /**
@@ -142,6 +157,16 @@ const locator = new StoreLocator({
      */
     pagination: '.js-pagination',
 
+    /* A selector for the element that retrieves the next page
+     * of paginated results (optional). 
+     */
+    nextPage: '.js-next',
+
+    /* A selector for the element that retrieves the previous page
+     * of paginated results (optional). 
+     */
+    prevPage: '.js-prev',
+
     /* An selector that can be used to reference checkboxes
      * that act as filters. The module will look at the element.value
      * of any of these elements and add them to the request (optional).
@@ -159,7 +184,12 @@ const locator = new StoreLocator({
      * accepts, this will trigger a request containing the user's current
      * latitude and longitude (optional).
      */
-    geolocation: '.js-trigger'
+    geolocation: '.js-trigger',
+
+    /* A selector for an element that shows a loading state while
+     * the user's geolocation is being fetched.
+     */
+    geolocationFeedback: '.js-geolocation-feedback'
   },
 
   /**
@@ -185,4 +215,36 @@ const locator = new StoreLocator({
     }
   }
 })
+```
+
+#### A simple HTML example
+```html
+<form class="js-form">
+  <input name="address" type="text" placeholder="Enter an address.." />
+  <select name="distance">
+    <option value="10" selected>10 miles</select>
+    <option value="20">20 miles</select>
+  </select>
+  <select name="product">
+    <option value="zinfandel" selected>Zinfandel</select>
+    <option value="pinot-noir">Pinot Noir</select>
+  </select>
+</form>
+<div>
+  <div>
+    <form>
+      <input type="checkbox" name="package" value="bottle" checked />
+      <input type="checkbox" name="package" value="box" />
+    </form>
+    <div class="js-sidebar">
+      <!-- The list of locations will be rendered here -->
+    </div>
+    <div class="js-pagination">
+      <button class="js-prev"></button>
+      <button class="js-next"></button>
+  </div>
+  <div class="js-map">
+    <!-- The map will be rendered here -->
+  </div>
+</div>
 ```
