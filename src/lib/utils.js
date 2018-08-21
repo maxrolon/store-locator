@@ -1,15 +1,7 @@
-export const scrollToTop = el => (el.scrollTop = 0)
-
 export const clearElement = el => {
   if (!el) return
   el.innerHTML = ''
 }
-
-export const formatNumber = text => (text.length === 10 ? text.replace(/^(\d{3})(\d{3})(\d{4})$/, '$1-$2-$3') : text)
-
-export const toTitleCase = str => (
-  str.replace(/\w\S*/g, text => text.charAt(0).toUpperCase() + text.substr(1).toLowerCase())
-)
 
 export const endpointError = text => console.error(text)
 
