@@ -38,3 +38,18 @@ test('First marker to be rendered is center', t => {
   const markers = instance.map.markers
   t.true(markers[0].location.center)
 })
+
+test('Test: Google map is provided with correct settings', t => {
+  new StoreLocater()  //eslint-disable-line
+  const needed = [
+    'center',
+    'zoom',
+    'styles',
+    'disableDefaultUI',
+    'zoomControl',
+    'gestureHandling'
+  ]
+  const allExist = needed.every(key => googleMapSettings[key]) //eslint-disable-line
+  t.true(allExist)
+  googleMapSettings = false //eslint-disable-line
+})

@@ -1,6 +1,7 @@
 import { addHook } from 'pirates'
 
 global.infoWindowOpened = false
+global.googleMapSettings = false
 
 function matcher (filename) {
   return !!~filename.indexOf('google-maps')
@@ -31,7 +32,9 @@ function mutate (code, filename) {
       }
     }], 'OK')
   }
-  function Map () {}
+  function Map (el, settings) {
+    global.googleMapSettings = settings
+  }
   Map.prototype.addListener = function addListener (action, fn) {
     happenings.push({name: action, fn})
   }
