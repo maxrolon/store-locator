@@ -338,3 +338,8 @@ locator.off(event, fn)
  */
 locator.destroy()
 ```
+
+#### Examples in use
+
+- Moscot: https://moscot.com/pages/locations
+- Austin Eastciders: https://austineastciders.com/pages/store-locator
