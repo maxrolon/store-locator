@@ -49,6 +49,7 @@ StoreLocator.prototype.removeAction = function addAction () {
 }
 
 StoreLocator.prototype.destroy = function destroy () {
+  this.bus.destroy()
   this.map.destroy()
   this.form.destroy()
   this.sidebar.destroy()
