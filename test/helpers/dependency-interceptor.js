@@ -1,5 +1,7 @@
 import { addHook } from 'pirates'
 
+global.infoWindowOpened = false
+
 function matcher (filename) {
   return !!~filename.indexOf('google-maps')
 }
@@ -17,6 +19,10 @@ function mutate (code, filename) {
   }
   function Geocoder () {}
   function InfoWindow () {}
+  InfoWindow.prototype.setContent = function setContent () {}
+  InfoWindow.prototype.open = function open () {
+    global.infoWindowOpened = true
+  }
   Geocoder.prototype.geocode = function geocode (req, fn) {
     fn([{
       formatted_address: '',
@@ -37,6 +43,9 @@ function mutate (code, filename) {
   Marker.prototype.addListener = function addListener (action, fn) {
     happenings.push({name: action, fn})
   }
+  Marker.prototype.getPosition = function getPosition () {
+    return latLng
+  }
   function Size () {}
   Map.prototype.setCenter = function setCenter () {}
   const Google = {
@@ -52,6 +61,7 @@ function mutate (code, filename) {
     load: function load (callback) {
       callback(Google)
     },
+    release: function release () {},
     happenings
   }
 

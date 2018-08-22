@@ -80,6 +80,9 @@ Sidebar.prototype.addToSidebar = function addToSidebar (response) {
 }
 
 Sidebar.prototype.showMarker = function showMarker (e, location) {
+  if (e.target.getAttribute('href')) {
+    return
+  }
   e && pd(e)
   this.bus.emit('focus-on-marker', location.name, e)
 }

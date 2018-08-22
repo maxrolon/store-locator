@@ -69,3 +69,56 @@ test('Geo Feedback gets shown', t => {
   const el = document.querySelector('.js-geolocation-feedback')
   t.true(el.classList.contains('is-visible'))
 })
+
+test('Sidebar item click triggers infowindow', t => {
+  const instance = new StoreLocater({
+    lookup (request, next) {
+      next({
+        locations: [{
+          name: 'TEST'
+        }]
+      })
+    },
+    templates: {
+      sidebar ({name}) {
+        return `
+        <p class="js-list-item">
+          <a href="https://google.com"></a>
+          <a>View On Map</a>
+        </p>`
+      }
+    }
+  })
+  instance.sidebar.onGeolocationClick()
+  const el = document.querySelector('.js-list-item')
+  const event = document.createEvent('HTMLEvents')
+  event.initEvent('click', true, true)
+  el.parentNode.dispatchEvent(event)
+  t.true(infoWindowOpened)
+  infoWindowOpened = false
+})
+
+test('Sidebar click on href node does not trigger infowindow', t => {
+  const instance = new StoreLocater({
+    lookup (request, next) {
+      next({
+        locations: [{
+          name: 'TEST'
+        }]
+      })
+    },
+    templates: {
+      sidebar ({name}) {
+        return `
+        <p class="js-list-item">
+          <a href="https://google.com"></a>
+          <a>View On Map</a>
+        </p>`
+      }
+    }
+  })
+  instance.sidebar.onGeolocationClick()
+  const el = document.querySelector('.js-list-item a[href]')
+  instance.sidebar.showMarker({target: el})
+  t.true(!infoWindowOpened)
+})

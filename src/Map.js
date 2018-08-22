@@ -44,8 +44,8 @@ function Map ({settings, elements, templates}, bus) {
 Map.prototype.googleHasLoaded = function googleHasLoaded (Google) {
   this.google.core = Google
   this.google.geocoder = new Google.maps.Geocoder()
-  const {center, zoom} = this.settings
-  this.google.map = new Google.maps.Map(this.map, {center, zoom})
+  const {center, zoom, styles} = this.settings
+  this.google.map = new Google.maps.Map(this.map, {center, zoom, styles})
   this.google.map.addListener('dragend', () => this.bus.emit('dragend'))
   this.google.map.addListener('zoom_changed', () => this.bus.emit('zoom-changed'))
 }

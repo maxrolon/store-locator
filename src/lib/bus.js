@@ -44,4 +44,9 @@ Bus.prototype.addFilter = function addFilter (name, fn, ctx = false) {
   }
 }
 
+Bus.prototype.destroy = function destroy () {
+  this.emitter.allOff()
+  this.emitter = null
+}
+
 export default Bus
