@@ -114,7 +114,7 @@ const locator = new StoreLocator({
     
     /* Return the icon size you would like to use for each location */
     iconSize (location, currentMapZoomAmount) {
-      return zoom * 1.5
+      return currentMapZoomAmount * 1.5
     },
 
     /* Turns pagination off */
