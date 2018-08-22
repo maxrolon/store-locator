@@ -20,10 +20,16 @@ function Map ({settings, elements, templates}, bus) {
   this.map = select(elements.map)
   this.redo = select(elements.redo)
 
-  bus.on('response', this.updateMap.bind(this))
-  bus.on('focus-on-marker', this.focusOnMarker.bind(this))
-  bus.on('zoom-changed', this.updateIcons.bind(this))
-  bus.on('dragend', this.showCenterButton.bind(this))
+  this.updateMap = this.updateMap.bind(this)
+  this.focusOnMarker = this.focusOnMarker.bind(this)
+  this.updateIcons = this.updateIcons.bind(this)
+  this.showCenterButton = this.showCenterButton.bind(this)
+  this.onRedo = this.onRedo.bind(this)
+
+  bus.on('response', this.updateMap)
+  bus.on('focus-on-marker', this.focusOnMarker)
+  bus.on('zoom-changed', this.updateIcons)
+  bus.on('dragend', this.showCenterButton)
 
   bus.addAction('Map/Geocode', this.geocode, this)
   bus.addAction('Map/getCenter', this.getCenter, this)
