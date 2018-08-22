@@ -237,6 +237,7 @@ const locator = new StoreLocator({
       <input type="checkbox" name="package" value="box" />
     </form>
     <div class="js-sidebar">
+      <a class="js-geolocation">Use My Location</a>
       <!-- The list of locations will be rendered here -->
     </div>
     <div class="js-pagination">
@@ -282,6 +283,58 @@ const locator = new StoreLocator({
       
       next({locations})
     })
+  },
+  settings: {
+    key: '<google-maps-key>',
   }
 })
+```
+
+#### Events
+```js
+import StoreLocator from 'store-locator'
+
+const locator = new StoreLocator({
+  // Configuration
+})
+
+/**
+ * This event is fired when an action triggers
+ * a new request for locations. This event will fire 
+ * immediately when the triggering action happens in the DOM, 
+ * like the submission of the form, or the clicking of a 
+ * "Use My Location" button (.js-geolocation).
+ */
+locator.on('request', () => {})
+
+/**
+ * This event is fired when the lookup 'done' method
+ * is called and the request for locations has
+ * been completed.
+ */
+locator.on('response', () => {})
+```
+
+#### API
+```js
+import StoreLocator from 'store-locator'
+
+const locator = new StoreLocator({
+  // Configuration
+})
+
+/**
+ * Hook into the 'request' or 'response' events.
+ */
+locator.on(event, fn)
+
+/**
+ * Remove an existing hook for 'request' or 'response' events.
+ */
+locator.off(event, fn)
+
+/**
+ * Destroy all event listeners and unload the map.
+ */
+locator.destroy()
 ```
