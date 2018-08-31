@@ -315,7 +315,7 @@ locator.on('request', () => {})
 locator.on('response', () => {})
 ```
 
-#### API
+#### Methods
 ```js
 import StoreLocator from 'store-locator'
 
@@ -338,6 +338,9 @@ locator.off(event, fn)
  */
 locator.destroy()
 ```
+
+#### Creating a Google Maps API Key
+The Google Maps API key needed for this module must have access to both the Google Maps Javascript API and the Geocoding API. To create this API key, head over to the [Google Cloud Platform Console](https://console.developers.google.com/project/_/apiui/apis/enabled) and enable both of these APIs for a new or existing project. You can access the API key from the "credentials" link in the sidebar. Copy the key and assign it to the `key` settings property.
 
 #### Examples in use
 
