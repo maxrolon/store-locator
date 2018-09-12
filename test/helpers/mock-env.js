@@ -43,6 +43,25 @@ export const bodyWithForm = `
   <div class="js-geolocation-feedback"></div>
 `
 
+export const bodyWithRegion = `
+  <form class="js-form">
+    <input type="text" name="address" value="197 Grand St" />
+    <select type="text" name="region">
+      <option value="us">United States</option>
+      <option value="fr" selected>France</option>
+    </select>
+    <select type="text" name="distance">
+      <option value="10">10 Miles</option>
+      <option value="20" selected>20 Miles</option>
+    </select>
+  </form>
+  <div class="js-redo"></div>
+  <div class="js-pagination"></div>
+  <div class="js-sidebar"></div>
+  <div class="js-geolocation"></div>
+  <div class="js-geolocation-feedback"></div>
+`
+
 export const bodyWithPagination = `
   <form class="js-form"></form>
   <div class="js-redo"></div>
