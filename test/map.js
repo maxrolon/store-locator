@@ -1,6 +1,14 @@
 import test from 'ava'
 import Loader from 'google-maps'
 import StoreLocater from '../src/'
+import {
+  createDocument,
+  bodyWithRegion
+} from './helpers/mock-env'
+
+test.before(t => {
+  geocodeRequest = false //eslint-disable-line
+})
 
 test('Test registering of map event handlers', t => {
   new StoreLocater() //eslint-disable-line
@@ -39,7 +47,7 @@ test('First marker to be rendered is center', t => {
   t.true(markers[0].location.center)
 })
 
-test('Test: Google map is provided with correct settings', t => {
+test('Google map is provided with correct settings', t => {
   new StoreLocater()  //eslint-disable-line
   const needed = [
     'center',
@@ -52,4 +60,11 @@ test('Test: Google map is provided with correct settings', t => {
   const allExist = needed.every(key => googleMapSettings[key]) //eslint-disable-line
   t.true(allExist)
   googleMapSettings = false //eslint-disable-line
+})
+
+test('Region gets passed to geocoder', t => {
+  createDocument(bodyWithRegion)
+  const instance = new StoreLocater()
+  instance.form.onSubmit()
+  t.true(geocodeRequest.region === 'fr') //eslint-disable-line
 })

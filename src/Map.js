@@ -192,6 +192,9 @@ Map.prototype.geocode = function geocode (request, next) {
     geocodeReq['address'] = request.address
     address = true
   }
+  if (request['region']) {
+    geocodeReq['region'] = request.region
+  }
   this.google.geocoder.geocode(geocodeReq, (res, status) => {
     if (status === 'OK') {
       let location = res[0] || {}

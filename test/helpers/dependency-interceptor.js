@@ -2,6 +2,7 @@ import { addHook } from 'pirates'
 
 global.infoWindowOpened = false
 global.googleMapSettings = false
+global.geocodeRequest = false
 
 function matcher (filename) {
   return !!~filename.indexOf('google-maps')
@@ -25,6 +26,7 @@ function mutate (code, filename) {
     global.infoWindowOpened = true
   }
   Geocoder.prototype.geocode = function geocode (req, fn) {
+    global.geocodeRequest = req
     fn([{
       formatted_address: '',
       geometry: {
