@@ -156,10 +156,9 @@ Map.prototype.createMarkerHTML = function createMarkerHTML (data) {
   return this.templates.marker(data)
 }
 
-Map.prototype.focusOnMarker = function focusOnMarker (name) {
-  let marker = this.markers
-    .map(({marker}) => marker)
-    .reduce((a, b) => b.name === name ? b : a)
+Map.prototype.focusOnMarker = function focusOnMarker (index) {
+  // +1 takes into account the first center marker
+  let marker = this.markers.map(({marker}) => marker)[index + 1]
   this.resetCenter(marker.getPosition())
   this.showModal(marker)
 }

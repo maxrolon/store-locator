@@ -71,20 +71,20 @@ Sidebar.prototype.addToSidebar = function addToSidebar (response) {
 
   this.sidebar.scrollTop = 0
 
-  response.locations.map(location => {
+  response.locations.map((location, i) => {
     const item = document.createElement('div')
-    on(item, 'click', e => this.showMarker(e, location))
+    on(item, 'click', e => this.showMarker(e, i))
     item.innerHTML = this.templates.sidebar(location)
     this.sidebar.appendChild(item)
   })
 }
 
-Sidebar.prototype.showMarker = function showMarker (e, location) {
+Sidebar.prototype.showMarker = function showMarker (e, i) {
   if (e.target.getAttribute('href')) {
     return
   }
   e && pd(e)
-  this.bus.emit('focus-on-marker', location.name, e)
+  this.bus.emit('focus-on-marker', i, e)
 }
 
 Sidebar.prototype.noResults = function noResults () {
