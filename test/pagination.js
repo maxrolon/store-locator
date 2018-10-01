@@ -13,7 +13,7 @@ test.before(t => {
 test('Pagesize and current page are added to request', t => {
   const instance = new StoreLocater({
     lookup (req, next) {
-      t.true(req.page === 1)
+      t.true(req.page === 0)
       t.true(req.pageSize === 52)
     },
     settings: {
@@ -116,7 +116,7 @@ test('A pagination button click with is-active does fire a request', t => {
   el.classList.add('is-active')
   const instance = new StoreLocater({
     lookup (req, next) {
-      t.true(req.page === 2)
+      t.true(req.page === 1)
       next({
         locations: []
       })

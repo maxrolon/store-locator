@@ -4,6 +4,8 @@ function Bus () {
   this.emitter = new Emitter()
   this.actions = {}
   this.filters = {}
+  this.previousRequest = {}
+  this.addAction('Bus/getPreviousRequest', this.getPreviousRequest, this)
 }
 
 Bus.prototype.addAction = function addAction (name, fn, ctx) {
@@ -46,6 +48,11 @@ Bus.prototype.addFilter = function addFilter (name, fn, ctx = false) {
 
 Bus.prototype.destroy = function destroy () {
   this.emitter = null
+}
+
+Bus.prototype.getPreviousRequest = function getPreviousRequest (request, next) {
+  Object.assign(request, this.previousRequest)
+  next(request)
 }
 
 export default Bus

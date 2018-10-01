@@ -1,6 +1,5 @@
 import {
   clearElement,
-  hasClass,
   show,
   pd,
   select,
@@ -51,7 +50,7 @@ Sidebar.prototype.onGeolocationClick = function onGeolocationClick (e) {
 
 Sidebar.prototype.onFilterChange = function onFilterChange (e) {
   e && pd(e)
-  this.bus.emit('request', this.bus.applyFilter('Sidebar/onFilterChange/request',[
+  this.bus.emit('request', this.bus.applyFilter('Sidebar/onFilterChange/request', [
     'Form/getValues',
     'Sidebar/getFilters',
     'Pagination/pageSize',

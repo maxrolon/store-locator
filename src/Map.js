@@ -80,8 +80,7 @@ Map.prototype.onRedo = function onRedo (e) {
     'Map/getCenter',
     'Sidebar/getFilters',
     'Pagination/pageSize',
-    'Pagination/getCurrentPage',
-    'Map/Geocode'
+    'Pagination/getCurrentPage'
   ]))
 }
 

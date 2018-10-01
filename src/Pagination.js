@@ -17,7 +17,7 @@ function Pagination ({elements, settings}, bus) {
     this.right = select(elements.nextPage, this.pagination)
   }
 
-  this.page = 1
+  this.page = 0
 
   this.onClick = this.onClick.bind(this)
   this.onResponse = this.onResponse.bind(this)
@@ -36,7 +36,7 @@ Pagination.prototype.onClick = function onClick (e) {
   e && pd(e)
   if (this.incrementPage(e) !== false) {
     this.bus.emit('request', this.bus.applyFilter('Pagination/onClick/request', [
-      'Request/getPreviousRequest',
+      'Bus/getPreviousRequest',
       'Pagination/pageSize',
       'Pagination/getCurrentPage'
     ]))
@@ -72,7 +72,9 @@ Pagination.prototype.updatePagination = function updatePagination (response) {
 }
 
 Pagination.prototype.addPageSizeToRequest = function addPageSizeToRequest (request, next) {
-  Object.assign(request, {pageSize: this.pageSize()})
+  Object.assign(request, {
+    pageSize: this.pageSize()
+  })
   next(request)
 }
 
@@ -88,7 +90,9 @@ Pagination.prototype.pageSize = function pageSize () {
 }
 
 Pagination.prototype.getCurrentPage = function getCurrentPage (request, next) {
-  next((request['page'] = this.page, request))
+  next(
+    (request['page'] = this.page, request)
+  )
 }
 
 Pagination.prototype.updateDOM = function updateDOM () {
@@ -104,11 +108,11 @@ Pagination.prototype.updateDOM = function updateDOM () {
 }
 
 Pagination.prototype.hasPrevPage = function hasPrevPage () {
-  return this.page > 1
+  return this.page >= 1
 }
 
 Pagination.prototype.hasNextPage = function hasNextPage () {
-  return this.page < this.pageCount
+  return (this.page + 1) < this.pageCount
 }
 
 Pagination.prototype.destroy = function destroy () {
