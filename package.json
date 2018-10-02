@@ -1,6 +1,6 @@
 {
   "name": "store-locator",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "An front-end store locator module",
   "source": "src/index.js",
   "module": "dist/index.es.js",
