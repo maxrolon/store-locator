@@ -96,7 +96,7 @@ Pagination.prototype.getCurrentPage = function getCurrentPage (request, next) {
 }
 
 Pagination.prototype.updateDOM = function updateDOM () {
-  if (this.pagination) {
+  if (this.pagination && this.pageCount > 1) {
     this.pagination.classList.add('is-active')
   }
   if (this.left) {

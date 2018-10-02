@@ -128,3 +128,37 @@ test('A pagination button click with is-active does fire a request', t => {
     preventDefault () {}
   })
 })
+
+test('When pageCount is greater then 1, pagination element is active', t => {
+  createDocument(bodyWithPagination)
+  const instance = new StoreLocater({
+    lookup (req, next) {
+      next({
+        locations: [],
+        pageCount: 2,
+        page: 0
+      })
+    }
+  })
+
+  instance.form.onSubmit()
+  const el = document.querySelector('.js-pagination.is-active')
+  t.true(!!el)
+})
+
+test('When pageCount is not greater then 1, pagination element is not active', t => {
+  createDocument(bodyWithPagination)
+  const instance = new StoreLocater({
+    lookup (req, next) {
+      next({
+        locations: [],
+        pageCount: 1,
+        page: 0
+      })
+    }
+  })
+
+  instance.form.onSubmit()
+  const el = document.querySelector('.js-pagination.is-active')
+  t.true(!el)
+})

@@ -1,5 +1,9 @@
 import test from 'ava'
 import StoreLocater from '../src/'
+import {
+  createDocument,
+  bodyWithPagination
+} from './helpers/mock-env'
 
 test('Lookup gets called', t => {
   let triggered = false
@@ -65,4 +69,30 @@ test('applyFilters overrides default actions array', t => {
   })
   instance.form.onSubmit()
   t.true(called)
+})
+
+test('Previous request is cached', t => {
+  createDocument(bodyWithPagination)
+  const el = document.querySelector('.js-next')
+  let requestCount = 0
+  const instance = new StoreLocater({
+    lookup (req, next) {
+      requestCount++
+      if (requestCount === 2) {
+        t.true(req.distance === '20')
+      }
+      next({
+        locations: [],
+        page: 1,
+        pageCount: 3
+      })
+    }
+  })
+
+  instance.form.onSubmit()
+
+  instance.pagination.onClick({
+    target: el,
+    preventDefault () {}
+  })
 })

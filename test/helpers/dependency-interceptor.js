@@ -51,6 +51,9 @@ function mutate (code, filename) {
   Marker.prototype.getPosition = function getPosition () {
     return latLng
   }
+  Marker.prototype.setMap = function setMap () {
+    return true
+  }
   function Size () {}
   Map.prototype.setCenter = function setCenter () {}
   const Google = {

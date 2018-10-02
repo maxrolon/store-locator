@@ -63,7 +63,13 @@ export const bodyWithRegion = `
 `
 
 export const bodyWithPagination = `
-  <form class="js-form"></form>
+  <form class="js-form">
+    <input type="text" name="address" value="197 Grand St" />
+    <select type="text" name="distance">
+      <option value="10">10 Miles</option>
+      <option value="20" selected>20 Miles</option>
+    </select>
+  </form>
   <div class="js-redo"></div>
   <div class="js-pagination">
     <i class="js-prev"></i>
