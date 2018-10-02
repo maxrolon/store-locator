@@ -21,7 +21,7 @@ function Pagination ({elements, settings}, bus) {
 
   this.onClick = this.onClick.bind(this)
   this.onResponse = this.onResponse.bind(this)
-  this.pageSize = this.pageSize.bind(this)
+  this.getPageSize = this.getPageSize.bind(this)
   if (this.paginate && this.pagination) {
     on(this.pagination, 'click', this.onClick)
   }
@@ -73,12 +73,12 @@ Pagination.prototype.updatePagination = function updatePagination (response) {
 
 Pagination.prototype.addPageSizeToRequest = function addPageSizeToRequest (request, next) {
   Object.assign(request, {
-    pageSize: this.pageSize()
+    pageSize: this.getPageSize()
   })
   next(request)
 }
 
-Pagination.prototype.pageSize = function pageSize () {
+Pagination.prototype.getPageSize = function getPageSize () {
   let pageSize = this.settings.pageSize
   if (
     window.innerWidth < this.settings.mobileBreakpoint &&
