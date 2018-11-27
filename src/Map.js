@@ -80,7 +80,8 @@ Map.prototype.onRedo = function onRedo (e) {
     'Map/getCenter',
     'Sidebar/getFilters',
     'Pagination/pageSize',
-    'Pagination/getCurrentPage'
+    'Pagination/getCurrentPage',
+    'Map/Geocode'
   ]))
 }
 
@@ -187,7 +188,15 @@ Map.prototype.geocode = function geocode (request, next) {
       lng: request.lng
     }
   } else {
-    geocodeReq['address'] = request.address
+    if (
+      !isNaN(Number(request.address)) &&
+      request.region === 'us'
+    ) {
+      geocodeReq['address'] = 'postal_code:' + request.address
+    } else {
+      geocodeReq['address'] = request.address
+    }
+
     address = true
   }
   if (request['region']) {
