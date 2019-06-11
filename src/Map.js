@@ -1,5 +1,6 @@
 import Loader from 'google-maps'
 import {
+  formatGeocodingPayload,
   endpointError,
   hide,
   show,
@@ -180,28 +181,9 @@ Map.prototype.showCenterButton = function showCenterButton () {
 }
 
 Map.prototype.geocode = function geocode (request, next) {
-  let geocodeReq = {}
-  let address = false
-  if (request.lat && request.lng) {
-    geocodeReq['location'] = {
-      lat: request.lat,
-      lng: request.lng
-    }
-  } else {
-    if (
-      !isNaN(Number(request.address)) &&
-      request.region === 'us'
-    ) {
-      geocodeReq['address'] = 'postal_code:' + request.address
-    } else {
-      geocodeReq['address'] = request.address
-    }
+  let geocodeReq = formatGeocodingPayload(request)
+  let address = !geocodeReq['location']
 
-    address = true
-  }
-  if (request['region']) {
-    geocodeReq['region'] = request.region
-  }
   this.google.geocoder.geocode(geocodeReq, (res, status) => {
     if (status === 'OK') {
       let location = res[0] || {}
@@ -210,10 +192,10 @@ Map.prototype.geocode = function geocode (request, next) {
         request['lat'] = location.geometry.location.lat()
         request['lng'] = location.geometry.location.lng()
       }
-      next(request)
     } else {
       endpointError('geocode error')
     }
+    next(request)
   })
 }
 
