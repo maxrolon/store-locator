@@ -37,7 +37,7 @@
     "@babel/register": "^7.0.0-rc.1",
     "ava": "^1.0.0-beta.4",
     "jsdom": "^11.12.0",
-    "microbundle": "^0.5.1",
+    "microbundle": "^0.15.1",
     "pirates": "^4.0.0",
     "sinon": "^6.1.5",
     "standard": "^11.0.1"
